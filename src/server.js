@@ -9,7 +9,7 @@
     const moment = require('moment');
     const bodyParser = require("body-parser");
 
-    /* 
+    /*
       (async () => {
         const response = await axios.get(
           "https://www.pathofexile.com/character-window/get-stash-items?accountName=[ACCOUNT]&league=Delirium&tabs=0&tabIndex=0", {
@@ -46,18 +46,18 @@
       console.log(req.body)
       let accountName = encodeURI(req.body.accountName)
       let options = {
-        url: `https://web.poe.garena.tw/api/trade/ignore/${accountName}`,
+        url: `https://poe.game.qq.com/api/trade/ignore/${accountName}`,
         method: 'PUT',
         headers: {
           'Cookie': req.body.cookie,
-          'Host': 'web.poe.garena.tw',
+          'Host': 'poe.game.qq.com',
           'Connection': 'keep-alive',
           'Content-Length': 0,
           'Pragma': 'no-cache',
           'Cache-Control': 'no-cache',
           'Accept': '*/*',
           'X-Requested-With': 'XMLHttpRequest',
-          'Origin': 'https://web.poe.garena.tw',
+          'Origin': 'https://poe.game.qq.com',
           'Sec-Fetch-Site': 'same-origin',
           'Sec-Fetch-Mode': 'cors',
           'Sec-Fetch-Dest': 'empty',
@@ -76,18 +76,18 @@
       console.log(req.body)
       let accountName = encodeURI(req.body.accountName)
       let options = {
-        url: `https://web.poe.garena.tw/api/trade/ignore/${accountName}`,
+        url: `https://poe.game.qq.com/api/trade/ignore/${accountName}`,
         method: 'DELETE',
         headers: {
           'Cookie': req.body.cookie,
-          'Host': 'web.poe.garena.tw',
+          'Host': 'poe.game.qq.com',
           'Connection': 'keep-alive',
           'Content-Length': 0,
           'Pragma': 'no-cache',
           'Cache-Control': 'no-cache',
           'Accept': '*/*',
           'X-Requested-With': 'XMLHttpRequest',
-          'Origin': 'https://web.poe.garena.tw',
+          'Origin': 'https://poe.game.qq.com',
           'Sec-Fetch-Site': 'same-origin',
           'Sec-Fetch-Mode': 'cors',
           'Sec-Fetch-Dest': 'empty',
@@ -135,8 +135,9 @@
         // could replace searchJson by `${league}?q={"query": ... }`
         method: 'post',
         headers: {
-          'accept': 'application/json',
+          'accept': '*/*',
           'Content-Type': 'application/json',
+          'User-Agent': 'rChin POE Trade For CN',
         },
         rejectUnauthorized: false,
         requestCert: false,
@@ -146,7 +147,7 @@
       if (req.body.cookie) {
         options.headers.Cookie = `POESESSID=${req.body.cookie};`
       }
-      // console.log(req.body.cookie)
+      console.log(req.body.searchJson)
       request(options, function (error, response, body) {
         if (!error && response.statusCode == 200) {
           console.log(`searchID: ${body.id}, searchTotal: ${body.total}`)

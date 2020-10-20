@@ -3,19 +3,19 @@
   <go-top :size="30" :bottom="50" :max-width="575" bg-color="#04a9f3" :boundary="50"></go-top>
   <hr>
   <b-alert v-if="isApiError" show variant="danger" style="margin-top: 5px;">
-    <div>Oops! API 串接時似乎發生了一點錯誤...</div>
+    <div>Oops! API 调用时似乎发生了一点错误...</div>
     <h4 style="padding-top: 6px;">{{ apiErrorStr }}</h4>
     <hr>
-    <div>若跳出提示 Code 503，表示台服或國際服官方應在關機維護中，請稍後再試</div>
-    <div>國際服玩家 -> 台服及國際服官方皆正常才可使用</div>
-    <div>台服玩家 -> 台服官方正常即可使用</div>
+    <div>若跳出提示 Code 503，表示Q服或国际服官方可能在关机维护中，请稍后再试</div>
+    <div>国际服玩家 -> Q服及国际服官方皆正常才可使用</div>
+    <div>Q服玩家 -> Q服官方正常即可使用</div>
     <hr>
     <countdown ref="countdown" :time="countTime" @end="handleCountdownEnd" :interval="100">
       <template slot-scope="props">
-        <b-button v-if="isCounting" @click="getAllAPI" :disabled="isCounting" size="sm" variant="outline-danger">請等待 {{ props.seconds }}.{{ Math.floor(props.milliseconds / 100) }} 秒後重試</b-button>
+        <b-button v-if="isCounting" @click="getAllAPI" :disabled="isCounting" size="sm" variant="outline-danger">请等待 {{ props.seconds }}.{{ Math.floor(props.milliseconds / 100) }} 秒后重试</b-button>
         <div v-else>
-          <b-button @click="getAllAPI(true)" :disabled="isCounting" size="sm" variant="outline-danger">國際服玩家點我重試一次</b-button> /
-          <b-button @click="getAllAPI(false)" :disabled="isCounting" size="sm" variant="outline-danger">台服玩家點我重試一次</b-button>
+          <b-button @click="getAllAPI(true)" :disabled="isCounting" size="sm" variant="outline-danger">国际服玩家点我重试一次</b-button> /
+          <b-button @click="getAllAPI(false)" :disabled="isCounting" size="sm" variant="outline-danger">Q服玩家点我重试一次</b-button>
         </div>
       </template>
     </countdown>
@@ -24,25 +24,25 @@
     <b-container class="bv-example-row">
       <b-row class="lesspadding">
         <b-col align-self="center" style="padding-left: 6px !important;">
-          <b-button v-b-toggle.collapse-1 size="sm" variant="outline-primary">搜尋設定</b-button>
+          <b-button v-b-toggle.collapse-1 size="sm" variant="outline-primary">搜索设定</b-button>
         </b-col>
         <b-col align-self="center">
-          <b-button @click="isItemCollapse = !isItemCollapse" :disabled="!isItem" size="sm" variant="outline-primary">物品設定</b-button>
+          <b-button @click="isItemCollapse = !isItemCollapse" :disabled="!isItem" size="sm" variant="outline-primary">物品设定</b-button>
         </b-col>
         <b-col align-self="center">
-          <b-button @click="isStatsCollapse = !isStatsCollapse" :disabled="searchStats.length == 0" size="sm" variant="outline-primary">詞綴設定</b-button>
+          <b-button @click="isStatsCollapse = !isStatsCollapse" :disabled="searchStats.length == 0" size="sm" variant="outline-primary">词缀设定</b-button>
         </b-col>
         <b-col align-self="center">
-          <b-button @click="isMapCollapse = !isMapCollapse" :disabled="!isMap" size="sm" variant="outline-primary">地圖設定</b-button>
+          <b-button @click="isMapCollapse = !isMapCollapse" :disabled="!isMap" size="sm" variant="outline-primary">地图设定</b-button>
         </b-col>
         <b-col align-self="center">
-          <b-button @click="isGemCollapse = !isGemCollapse" :disabled="!isGem" size="sm" variant="outline-primary">技能設定</b-button>
+          <b-button @click="isGemCollapse = !isGemCollapse" :disabled="!isGem" size="sm" variant="outline-primary">技能设定</b-button>
         </b-col>
         <b-col align-self="center">
           <b-button v-b-toggle.collapse-2 size="sm" variant="outline-primary">附加功能</b-button>
         </b-col>
         <b-col v-if="isDevMode" align-self="center">
-          <b-button @click="checkAPI" size="sm" variant="outline-primary">API 測試</b-button>
+          <b-button @click="checkAPI" size="sm" variant="outline-primary">API 测试</b-button>
         </b-col>
       </b-row>
       <b-collapse id="collapse-2" class="mt-2">
@@ -50,14 +50,14 @@
           <b-row class="lesspadding" style="padding-left: 2px;">
             <b-col sm="4">
               <b-form-checkbox style="padding-top: 7px;" class="float-right" v-model="isMapAreaCollapse" switch :inline="false">
-                <b>輿圖區域名稱複製</b>
+                <b>舆图区域名称复制</b>
               </b-form-checkbox>
             </b-col>
             <b-col sm="1"></b-col>
             <b-col sm="7" class="my-1">
               <b-form-group label="" label-cols-sm="0" label-align-sm="right" label-size="sm" class="mb-0">
                 <b-input-group size="sm">
-                  <b-form-input v-model="wantedAddedText" type="search" id="filterInput" placeholder="請輸入欲在複製字串後增加的文字"></b-form-input>
+                  <b-form-input v-model="wantedAddedText" type="search" id="filterInput" placeholder="请输入欲在复制字符串后增加的文字"></b-form-input>
                   <b-input-group-append>
                     <b-button :disabled="!wantedAddedText" @click="addAfterCopyText">增加</b-button>
                   </b-input-group-append>
@@ -68,40 +68,40 @@
           <b-collapse :visible="isMapAreaCollapse" class="lesspadding">
             <b-row style="padding-top: 10px;">
               <b-col sm="5">
-                <b-button @click="mapAreaCopy('海沃克．哈姆雷特')" size="sm" variant="outline-primary">海沃克．哈姆雷特 (左上外)</b-button>
+                <b-button @click="mapAreaCopy('海沃克村')" size="sm" variant="outline-primary">海沃克村 (左上外)</b-button>
               </b-col>
               <b-col sm="2"></b-col>
               <b-col sm="5">
-                <b-button @click="mapAreaCopy('雷克斯．伊喬里斯')" size="sm" variant="outline-primary">雷克斯．伊喬里斯 (右上外)</b-button>
+                <b-button @click="mapAreaCopy('恩约利斯之律')" size="sm" variant="outline-primary">恩约利斯之律 (右上外)</b-button>
               </b-col>
             </b-row>
             <b-row style="padding-top: 8px;">
               <b-col sm="3"></b-col>
               <b-col sm="3">
-                <b-button @click="mapAreaCopy('特恩之盡')" size="sm" variant="outline-primary">特恩之盡 (左上內)</b-button>
+                <b-button @click="mapAreaCopy('提恩止境')" size="sm" variant="outline-primary">提恩止境 (左上內)</b-button>
               </b-col>
               <b-col sm="5">
-                <b-button @click="mapAreaCopy('雷克斯．普拉克斯瑪')" size="sm" variant="outline-primary">雷克斯．普拉克斯瑪 (右上內)</b-button>
+                <b-button @click="mapAreaCopy('未来之律')" size="sm" variant="outline-primary">雷未来之律 (右上內)</b-button>
               </b-col>
               <b-col sm="1"></b-col>
             </b-row>
             <b-row style="padding-top: 8px;">
               <b-col sm="1"></b-col>
               <b-col sm="5">
-                <b-button @click="mapAreaCopy('格倫納許．凱恩斯')" size="sm" variant="outline-primary">格倫納許．凱恩斯 (左下內)</b-button>
+                <b-button @click="mapAreaCopy('格伦纳赫石冢')" size="sm" variant="outline-primary">格伦纳赫石冢 (左下內)</b-button>
               </b-col>
               <b-col sm="4">
-                <b-button @click="mapAreaCopy('瓦爾多憩地')" size="sm" @click.right="clickCount++" variant="outline-primary">瓦爾多憩地 (右下內)</b-button>
+                <b-button @click="mapAreaCopy('瓦尔多之息')" size="sm" @click.right="clickCount++" variant="outline-primary">瓦尔多之息 (右下內)</b-button>
               </b-col>
               <b-col sm="2"></b-col>
             </b-row>
             <b-row style="padding-top: 8px;">
               <b-col sm="4">
-                <b-button @click="mapAreaCopy('新瓦斯提里')" size="sm" variant="outline-primary" @click.shift.middle="clickCount > 5 && isGem ? clickOpen() : ''">新瓦斯提里 (左下外)</b-button>
+                <b-button @click="mapAreaCopy('新瓦斯蒂尔')" size="sm" variant="outline-primary" @click.shift.middle="clickCount > 5 && isGem ? clickOpen() : ''">新瓦斯蒂尔 (左下外)</b-button>
               </b-col>
               <b-col sm="4"></b-col>
               <b-col sm="4">
-                <b-button @click="mapAreaCopy('里拉．奧斯汀')" size="sm" variant="outline-primary">里拉．奧斯汀 (右下外)</b-button>
+                <b-button @click="mapAreaCopy('利拉亚森')" size="sm" variant="outline-primary">利拉亚森 (右下外)</b-button>
               </b-col>
             </b-row>
           </b-collapse>
@@ -122,7 +122,7 @@
           <b-row class="lesspadding" style="padding-top: 5px; padding-left: 2px;">
             <b-col sm="3">
               <b-form-checkbox class="float-right" style="padding-top: 5px;" v-model="isOnline" :disabled="isCounting" switch :inline="false">
-                <b>只顯示線上</b>
+                <b>只显示线上</b>
               </b-form-checkbox>
             </b-col>
             <b-col sm="3">
@@ -143,7 +143,7 @@
     <b-container class="bv-example-row">
       <b-collapse :visible="isItem && isItemCollapse" class="mt-2">
         <b-card>
-          <!-- TODO: 全部物品篩選 -->
+          <!-- TODO: 全部物品筛选 -->
           <b-row class="lesspadding">
             <b-col sm="3" style="padding-top: 6px;">
               <b-form-checkbox class="float-right" v-model="itemLevel.isSearch" @input="isItemLevelSearch" switch>物品等級</b-form-checkbox>
@@ -163,7 +163,7 @@
           </b-row>
           <b-row class="lesspadding" style="padding-top: 5px;">
             <b-col sm="3" style="padding-top: 6px;">
-              <b-form-checkbox class="float-right" v-model="itemLinked.isSearch" @input="isLinkedSearch" switch>物品連線</b-form-checkbox>
+              <b-form-checkbox class="float-right" v-model="itemLinked.isSearch" @input="isLinkedSearch" switch>物品连线</b-form-checkbox>
             </b-col>
             <b-col sm="1" style="padding-top: 3px;">
               <b-form-input v-model.number="itemLinked.min" @dblclick="itemLinked.min = ''" @input="isLinkedSearch" :disabled="!itemLinked.isSearch" :style="itemLinked.min > 6 ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
@@ -172,7 +172,7 @@
               <b-form-input v-model.number="itemLinked.max" @dblclick="itemLinked.max = ''" @input="isLinkedSearch" :disabled="!itemLinked.isSearch" :style="(itemLinked.max && (itemLinked.max < itemLinked.min)) || itemLinked.max > 6 ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
             </b-col>
             <b-col sm="3" style="padding-top: 6px;">
-              <b-form-checkbox class="float-right" v-model="itemCategory.isSearch" @input="isItemCategorySearch" switch>物品分類</b-form-checkbox>
+              <b-form-checkbox class="float-right" v-model="itemCategory.isSearch" @input="isItemCategorySearch" switch>物品分类</b-form-checkbox>
             </b-col>
             <b-col sm="4">
               <v-select :options="itemCategory.option" v-model="itemCategory.chosenObj" label="label" @input="categoryChange" :disabled="!itemCategory.isSearch" :clearable="false" :filterable="false" placeholder="任何"></v-select>
@@ -186,7 +186,7 @@
               <b-form-input style="width: 100px;" v-model="itemBasic.text" :disabled="true" size="sm"></b-form-input>
             </b-col>
             <b-col sm="2" style="padding-top: 6px;">
-              <b-form-checkbox class="float-right" v-model="itemExBasic.isSearch" @input="isExBasicSearch" switch>勢力基底</b-form-checkbox>
+              <b-form-checkbox class="float-right" v-model="itemExBasic.isSearch" @input="isExBasicSearch" switch>势力基底</b-form-checkbox>
             </b-col>
             <b-col sm="4">
               <v-select class="exBasicIcon" :options="itemExBasic.option" :value="itemExBasic.chosenObj" label="label" @input="exBasicChange" :disabled="!itemExBasic.isSearch" :clearable="false" :filterable="false" placeholder="任何">
@@ -201,7 +201,7 @@
             <b-row>
               <b-col sm="10"></b-col>
               <b-col sm="2" style="padding-top: 15px;">
-                <b-button @click="clickToSearch" :disabled="isCounting" variant="outline-primary">查詢</b-button>
+                <b-button @click="clickToSearch" :disabled="isCounting" variant="outline-primary">查询</b-button>
               </b-col>
             </b-row>
           </b-collapse>
@@ -213,7 +213,7 @@
         <b-card>
           <b-row class="lesspadding">
             <b-col sm="3" style="padding-top: 6px;">
-              <b-form-checkbox class="float-right" v-model="mapLevel.isSearch" @input="isMapLevelSearch" switch>地圖階級</b-form-checkbox>
+              <b-form-checkbox class="float-right" v-model="mapLevel.isSearch" @input="isMapLevelSearch" switch>地图阶级</b-form-checkbox>
             </b-col>
             <b-col sm="1" style="padding-top: 3px;">
               <b-form-input v-model.number="mapLevel.min" @dblclick="mapLevel.min= ''" @input="isMapLevelSearch" :disabled="!mapLevel.isSearch" size="sm" type="number"></b-form-input>
@@ -231,23 +231,23 @@
           </b-row>
           <b-row class="lesspadding" style="padding-top: 5px;">
             <b-col sm="3" style="padding-top: 6px;">
-              <b-form-checkbox class="float-right" v-model="mapBasic.isSearch" @input="isMapBasicSearch" switch>地圖基底</b-form-checkbox>
+              <b-form-checkbox class="float-right" v-model="mapBasic.isSearch" @input="isMapBasicSearch" switch>地图基底</b-form-checkbox>
             </b-col>
             <b-col :sm="isGarenaSvr ? 4 : 9">
               <!-- <b-form-input v-model="mapBasic.chosenM" :disabled="true"></b-form-input> -->
               <v-select :options="mapBasic.option" v-model="mapBasic.chosenM" @input="isMapBasicSearch" label="label" :disabled="!mapBasic.isSearch" :clearable="false" :filterable="true"></v-select>
             </b-col>
           </b-row>
-          <b-collapse :visible="raritySet.chosenObj.label !== '傳奇'">
+          <b-collapse :visible="raritySet.chosenObj.label !== '传奇'">
             <b-row style="padding-top: 10px;">
               <b-col sm="4">
-                <b-form-checkbox style="padding-left: 8px !important" v-model="mapCategory.isShaper" switch :inline="false">塑者領域</b-form-checkbox>
+                <b-form-checkbox style="padding-left: 8px !important" v-model="mapCategory.isShaper" switch :inline="false">塑者领域</b-form-checkbox>
               </b-col>
               <b-col sm="4">
-                <b-form-checkbox v-model="mapCategory.isElder" switch :inline="false">尊師領域</b-form-checkbox>
+                <b-form-checkbox v-model="mapCategory.isElder" switch :inline="false">尊师领域</b-form-checkbox>
               </b-col>
               <b-col sm="4">
-                <b-form-checkbox v-model="mapCategory.isBlighted" switch :inline="false">凋落地區</b-form-checkbox>
+                <b-form-checkbox v-model="mapCategory.isBlighted" switch :inline="false">凋落地区</b-form-checkbox>
               </b-col>
             </b-row>
           </b-collapse>
@@ -255,7 +255,7 @@
             <b-row style="padding-top: 8px;">
               <b-col sm="4"></b-col>
               <b-col sm="3" style="padding-left: 28px; padding-top: 5px;">
-                <b-form-checkbox v-model="mapElderGuard.isSearch" @input="isMapElderGuardSearch" switch :inline="false">守衛</b-form-checkbox>
+                <b-form-checkbox v-model="mapElderGuard.isSearch" @input="isMapElderGuardSearch" switch :inline="false">守卫</b-form-checkbox>
               </b-col>
               <b-col sm="5" class="lesspadding">
                 <v-select :options="mapElderGuard.option" v-model="mapElderGuard.chosenObj" @input="isMapElderGuardSearch" label="label" :disabled="!mapElderGuard.isSearch" :clearable="false" :filterable="false">
@@ -270,7 +270,7 @@
           <b-row>
             <b-col sm="10"></b-col>
             <b-col sm="2" style="padding-top: 15px;">
-              <b-button @click="clickToSearch" :disabled="isCounting" variant="outline-primary">查詢</b-button>
+              <b-button @click="clickToSearch" :disabled="isCounting" variant="outline-primary">查询</b-button>
             </b-col>
           </b-row>
         </b-card>
@@ -281,7 +281,7 @@
         <b-card>
           <b-row class="lesspadding">
             <b-col sm="3" style="padding-top: 3px;">
-              <b-form-checkbox class="float-right" v-model="gemLevel.isSearch" @input="isGemLevelSearch" switch>技能等級</b-form-checkbox>
+              <b-form-checkbox class="float-right" v-model="gemLevel.isSearch" @input="isGemLevelSearch" switch>技能等级</b-form-checkbox>
             </b-col>
             <b-col sm="1">
               <b-form-input v-model.number="gemLevel.min" @dblclick="gemLevel.min= ''" @input="isGemLevelSearch" :disabled="!gemLevel.isSearch" size="sm" type="number"></b-form-input>
@@ -290,7 +290,7 @@
               <b-form-input v-model.number="gemLevel.max" @dblclick="gemLevel.max= ''" @input="isGemLevelSearch" :disabled="!gemLevel.isSearch" :style="gemLevel.max && (gemLevel.max < gemLevel.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
             </b-col>
             <b-col sm="3" style="padding-top: 3px;">
-              <b-form-checkbox class="float-right" v-model="gemQuality.isSearch" @input="isGemQualitySearch" switch>技能品質</b-form-checkbox>
+              <b-form-checkbox class="float-right" v-model="gemQuality.isSearch" @input="isGemQualitySearch" switch>技能品质</b-form-checkbox>
             </b-col>
             <b-col sm="1">
               <b-form-input v-model.number="gemQuality.min" @dblclick="gemQuality.min= ''" @input="isGemQualitySearch" :disabled="!gemQuality.isSearch" size="sm" type="number"></b-form-input>
@@ -301,7 +301,7 @@
           </b-row>
           <b-row class="lesspadding" style="padding-top: 10px;">
             <b-col sm="3" style="padding-top: 6px;">
-              <b-form-checkbox class="float-right" v-model="gemQualitySet.isSearch" @input="gemQualityTypeInput" switch>替代品質</b-form-checkbox>
+              <b-form-checkbox class="float-right" v-model="gemQualitySet.isSearch" @input="gemQualityTypeInput" switch>替代品质</b-form-checkbox>
             </b-col>
             <b-col sm="4">
               <v-select :options="gemQualitySet.option" v-model="gemQualitySet.chosenObj" @input="gemQualityTypeInput" label="label" :disabled="!gemQualitySet.isSearch" :clearable="false" :filterable="true"></v-select>
@@ -318,7 +318,7 @@
           <b-row>
             <b-col sm="10"></b-col>
             <b-col sm="2" style="padding-top: 5px;">
-              <b-button @click="clickToSearch" :disabled="isCounting" variant="outline-primary">查詢</b-button>
+              <b-button @click="clickToSearch" :disabled="isCounting" variant="outline-primary">查询</b-button>
             </b-col>
           </b-row>
         </b-card>
@@ -326,7 +326,7 @@
     </b-container>
     <b-alert v-if="isCounting && !isApiError" show variant="warning" style="margin-top: 5px;">
       <countdown ref="countdown" :time="countTime" @end="handleCountdownEnd" :interval="100">
-        <template slot-scope="props">因 API 發送次數限制，請再等待：{{ props.seconds }}.{{ Math.floor(props.milliseconds / 100) }} 秒</template>
+        <template slot-scope="props">因 API 调用次数现在，请再等待：{{ props.seconds }}.{{ Math.floor(props.milliseconds / 100) }} 秒</template>
       </countdown>
     </b-alert>
     <hr v-else>
@@ -336,9 +336,9 @@
         <table class="table table-sm">
           <thead class="thead-dark">
             <tr>
-              <th scope="col">查詢</th>
-              <th scope="col">種類</th>
-              <th scope="col">詞綴內容</th>
+              <th scope="col">查询</th>
+              <th scope="col">种类</th>
+              <th scope="col">词缀內容</th>
               <th scope="col">最小值</th>
               <th scope="col">最大值</th>
             </tr>
@@ -366,7 +366,7 @@
         <b-row>
           <b-col sm="10"></b-col>
           <b-col sm="2">
-            <b-button @click="clickToSearch" :disabled="isCounting" variant="outline-primary">查詢</b-button>
+            <b-button @click="clickToSearch" :disabled="isCounting" variant="outline-primary">查询</b-button>
           </b-col>
         </b-row>
       </b-collapse>
@@ -374,7 +374,7 @@
     <h6 v-html="status"></h6>
   </div>
   <div>
-    <b-button v-if="fetchQueryID" @click="popOfficialWebsite" :disabled="isCounting" size="sm" variant="outline-primary">{{ whichServer }} 官方交易市集</b-button>
+    <b-button v-if="fetchQueryID" @click="popOfficialWebsite" :disabled="isCounting" size="sm" variant="outline-primary">{{ whichServer }} 官方交易市场</b-button>
     <PriceAnalysis @countdown="startCountdown" @refresh="searchTrade(searchJson)" :isCounting="isCounting" :fetchID="fetchID" :fetchQueryID="fetchQueryID" :isPriced="isPriced" :baseUrl="baseUrl" :searchTotal="searchTotal"></PriceAnalysis>
   </div>
 </div>
@@ -382,7 +382,7 @@
 
 <script>
 // @ is an alias to /src
-import PriceAnalysis from '@/components/PriceAnalysis.vue'
+import PriceAnalysis from '@/components/PriceAnalysis4CN.vue'
 import hotkeys from "hotkeys-js";
 import GoTop from '@inotom/vue-go-top';
 
@@ -390,12 +390,15 @@ var axios = require('axios');
 var rateLimit = require('axios-rate-limit');
 var _ = require('lodash');
 var stringSimilarity = require('string-similarity');
+var path = require('path'); //系统路径模块  Q服 items-api 始终查询失败，改用本地数据处理
+var fs = require('fs'); //文件模块
+
 const {
   clipboard,
   shell
 } = require('electron')
 export default {
-  name: 'home',
+  name: 'home4CN',
   components: {
     PriceAnalysis,
     GoTop
@@ -409,8 +412,8 @@ export default {
       wantedAddedText: '',
       testResponse: '',
       countTime: 0,
-      baseUrl: 'https://web.poe.garena.tw',
-      isGarenaSvr: false,
+      baseUrl: 'https://poe.game.qq.com',
+      isGarenaSvr: true,
       isApiError: false,
       apiErrorStr: '',
       isCounting: false,
@@ -424,26 +427,40 @@ export default {
       isGemCollapse: true,
       isStatsCollapse: true,
       isMapAreaCollapse: false,
-      searchStats: [], // 分析拆解後的物品詞綴陣列，提供使用者在界面勾選是否查詢及輸入數值
-      pseudoStats: [], // 偽屬性
-      explicitStats: [], // 隨機屬性
-      implicitStats: [], // 固定屬性
-      enchantStats: [], // 附魔
-      clusterJewelStats: [], // 星團珠寶附魔詞綴
-      allocatesStats: [], // 項鍊塗油配置附魔詞綴
+      // 分析拆解後的物品詞綴陣列，提供使用者在界面勾選是否查詢及輸入數值
+      searchStats: [],
+      // 偽屬性
+      pseudoStats: [],
+      // 隨機屬性
+      explicitStats: [],
+      // 固定屬性
+      implicitStats: [],
+      // 附魔
+      enchantStats: [],
+      // 星團珠寶附魔詞綴
+      clusterJewelStats: [],
+      // 項鍊塗油配置附魔詞綴
+      allocatesStats: [],
       wrapStats: [],
-      craftedStats: [], // 已工藝
-      fetchID: [], // 預計要搜尋物品細項的 ID, 10 個 ID 為一陣列
+      // 已工藝
+      craftedStats: [],
+      // 預計要搜尋物品細項的 ID, 10 個 ID 為一陣列
+      fetchID: [],
       searchName: '',
       fetchQueryID: '',
-      allItems: [], // 物品 API 抓回來的資料
-      equipItems: [], // 可裝備的物品資料
-      leagues: { // 搜尋聯盟
+      // 物品 API 抓回來的資料
+      allItems: [],
+      // 可裝備的物品資料
+      equipItems: [],
+      // 搜尋聯盟
+      leagues: {
         option: [],
         chosenL: ""
       },
-      gggLeagues: [], // 暫存 ggg 聯盟字串
-      raritySet: { // 稀有度設定
+      // 暫存 ggg 聯盟字串
+      gggLeagues: [],
+      // 稀有度設定
+      raritySet: {
         option: [{
           label: "一般",
           prop: 'normal'
@@ -454,10 +471,10 @@ export default {
           label: "稀有",
           prop: 'rare'
         }, {
-          label: "傳奇",
+          label: "传奇",
           prop: 'unique'
         }, {
-          label: "非傳奇",
+          label: "非传奇",
           prop: 'nonunique'
         }, ],
         chosenObj: {
@@ -485,23 +502,23 @@ export default {
       },
       gemQualitySet: { // 寶石替代品質設定
         option: [{
-          label: "精良的（預設）",
+          label: "精良的（默认）",
           prop: '0'
         }, {
           label: "任何替代",
           prop: 'alternate'
         }, {
-          label: "異常的",
+          label: "异常的",
           prop: '1'
         }, {
-          label: "相異的",
+          label: "相异的",
           prop: '2'
         }, {
           label: "幻影的",
           prop: '3'
         }, ],
         chosenObj: {
-          label: "精良的（預設）",
+          label: "精良的（默认）",
           prop: '0'
         },
         isSearch: false,
@@ -516,33 +533,33 @@ export default {
         isElder: false,
         isBlighted: false
       },
-      mapElderGuard: { // 尊師守衛地圖
+      mapElderGuard: { // 尊师守卫地图
         option: [{
-          label: "異界．奴役",
+          label: "裂界守卫：奴役",
           prop: "1",
           url: "https://twwebcdnpoe-a.akamaihd.net/image/Art/2DItems/Maps/AtlasMapGuardianFire.png?v=e5e1e33936ce8035aed76e3ca12b9b4f"
         }, {
-          label: "異界．根除",
+          label: "裂界守卫：寂灭",
           prop: "2",
           url: "https://twwebcdnpoe-a.akamaihd.net/image/Art/2DItems/Maps/AtlasMapGuardianLightning.png?v=90d792a619252cc02b8f974893811531"
         }, {
-          label: "異界．干擾",
+          label: "裂界守卫：约束",
           prop: "3",
           url: "https://twwebcdnpoe-a.akamaihd.net/image/Art/2DItems/Maps/AtlasMapGuardianHoly.png?v=ebb9b06c3456603cc78e88b797049dda"
         }, {
-          label: "異界．淨化",
+          label: "裂界守卫：净世",
           prop: "4",
           url: "https://twwebcdnpoe-a.akamaihd.net/image/Art/2DItems/Maps/AtlasMapGuardianChaos.png?v=e131ac9d26855fcbd7eb44deee8a9ef1"
         }, ],
         chosenObj: {
-          label: "無",
+          label: "无",
           prop: ''
         },
         isSearch: false,
       },
       mapBasic: { // 地圖基底
         option: [],
-        chosenM: '無',
+        chosenM: '无',
         isSearch: false,
       },
       gggMapBasic: [],
@@ -570,27 +587,27 @@ export default {
       },
       itemExBasic: { // 勢力基底
         option: [{
-          label: "塑者之物",
+          label: "塑界之器",
           prop: "shaper_item",
           url: "https://twwebcdnpoe-a.akamaihd.net/image/item/popup/shaper-symbol.png?1582104312019"
         }, {
-          label: "尊師之物",
+          label: "裂界之器",
           prop: "elder_item",
           url: "https://twwebcdnpoe-a.akamaihd.net/image/item/popup/elder-symbol.png?1582104312011"
         }, {
-          label: "聖戰君王物品",
+          label: "圣战者物品",
           prop: "crusader_item",
           url: "https://twwebcdnpoe-a.akamaihd.net/image/item/popup/crusader-symbol.png?1582104312011"
         }, {
-          label: "救贖者物品",
+          label: "救赎者物品",
           prop: "redeemer_item",
           url: "https://twwebcdnpoe-a.akamaihd.net/image/item/popup/redeemer-symbol.png?1582104312015"
         }, {
-          label: "總督軍物品",
+          label: "督军物品",
           prop: "warlord_item",
           url: "https://twwebcdnpoe-a.akamaihd.net/image/item/popup/warlord-symbol.png?1582104312019"
         }, {
-          label: "狩獵者物品",
+          label: "狩猎者物品",
           prop: "hunter_item",
           url: "https://twwebcdnpoe-a.akamaihd.net/image/item/popup/hunter-symbol.png?1582104312015"
         }, ],
@@ -655,7 +672,7 @@ export default {
           "status": {
             "option": "online"
           },
-          "type": "寶鑽戒指", // 物品基底 isItemBasicSearch
+          "type": "宝钻戒指", // 物品基底 isItemBasicSearch
           "stats": [{
             "type": "and",
             "filters": [{
@@ -723,7 +740,7 @@ export default {
     }
   },
   created() {
-    if (clipboard.readText().indexOf('稀有度:') > -1) {
+    if (clipboard.readText().indexOf('稀 有 度:') > -1) {
       this.cleanClipboard()
     }
   },
@@ -742,7 +759,7 @@ export default {
       const regMatchBrackets = /\((.+?)\)/g // 取出括號內文字
       string = regMatchBrackets.test(string) ? string.match(regMatchBrackets)[0] : string
       const regEnglish = /[\u4e00-\u9fa5]+|\(|\)|．|：/g // 全域搜尋中文字、括號及特定符號，ready for replace
-      if (string.indexOf('追憶之') > -1) { // 追憶物品只取 itemBasic Name
+      if (string.indexOf('追忆之') > -1) { // 追憶物品只取 itemBasic Name
         string = string.slice(4).trim()
       }
       return this.isGarenaSvr ? string : string.replace(regEnglish, '').trim()
@@ -786,23 +803,23 @@ export default {
       this.copyText = ''
     },
     clickOpen() {
-      this.$prompt('請輸入 e-mail', '提示', {
-        confirmButtonText: '確定',
+      this.$prompt('请输入 e-mail', '提示', {
+        confirmButtonText: '确定',
         cancelButtonText: '取消',
         inputPattern: /^[a-z0-9]{32}$|^$/,
-        inputErrorMessage: 'e-mail 格式不正確'
+        inputErrorMessage: 'e-mail 格式不正确'
       }).then(({
         value
       }) => {
         this.$store.commit('setPOESESSID', value);
         this.$message({
           type: 'success',
-          message: `你的 mailID: ${value} 已儲存成功`
+          message: `你的 mailID: ${value} 已存储成功`
         });
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '取消輸入'
+          message: '取消输入'
         });
       });
     },
@@ -855,13 +872,13 @@ export default {
         .then((response) => {
           this.searchTotal = parseInt(response.data.total, 10) // 總共搜到幾項物品
           response.data.total += response.data.total == "100000" ? `+` : ``
-          this.status = `共 ${response.data.total} 筆符合`
+          this.status = `共 ${response.data.total} 笔符合`
           this.fetchID = response.data.fetchID
           this.fetchQueryID = response.data.id
         })
         .catch(function (error) {
           let errMsg = JSON.stringify(error.response.data)
-          vm.status = `此次搜尋異常，煩請至 巴哈討論串 / Github Issue 回報複製後的物品字串，感謝！<br>${errMsg}`
+          vm.status = `此次搜索异常，烦请至 巴哈讨论串 / Github Issue 回报复制后的物品词缀字符，感谢！<br>${errMsg}`
           vm.$message({
             type: 'error',
             message: errMsg
@@ -894,25 +911,25 @@ export default {
     },
     statsAPI() { // 詞綴 API
       let vm = this
-      this.axios.get(`https://web.poe.garena.tw/api/trade/data/stats`, )
+      this.axios.get(`https://poe.game.qq.com/api/trade/data/stats`, )
         .then((response) => {
-          response.data.result[0].entries.forEach((element, index) => { // 偽屬性
+          response.data.result[0].entries.forEach((element, index) => { // 综合
             this.pseudoStats.push(element.text, element.id)
           })
-          response.data.result[1].entries.forEach((element, index) => { // 隨機屬性
+          response.data.result[1].entries.forEach((element, index) => { // 外延
             let text = element.text
-            if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
-              text = text.substring(0, text.indexOf(' (部分)'))
+            if (text.indexOf(' (区域)') > -1) { // 刪除(部分)字串
+              text = text.substring(0, text.indexOf(' (区域)'))
             }
             if (text.includes('\n')) { // 處理折行詞綴
               this.wrapStats.push(text)
             }
             this.explicitStats.push(text, element.id)
           })
-          response.data.result[2].entries.forEach((element, index) => { // 固定屬性
+          response.data.result[2].entries.forEach((element, index) => { // 基底
             let text = element.text
-            if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
-              text = text.substring(0, text.indexOf(' (部分)'))
+            if (text.indexOf(' (区域)') > -1) { // 刪除(部分)字串
+              text = text.substring(0, text.indexOf(' (区域)'))
             }
             if (text.includes('\n')) { // 處理折行詞綴
               this.wrapStats.push(text)
@@ -921,8 +938,8 @@ export default {
           })
           response.data.result[4].entries.forEach((element, index) => { // 附魔
             let text = element.text
-            if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
-              text = text.substring(0, text.indexOf(' (部分)'))
+            if (text.indexOf(' (区域)') > -1) { // 刪除(部分)字串
+              text = text.substring(0, text.indexOf(' (区域)'))
             }
             if (element.id === "enchant.stat_3948993189") { // 星團珠寶固定附魔詞綴
               element.option.options.forEach((element, index) => {
@@ -938,10 +955,10 @@ export default {
             }
             this.enchantStats.push(text, element.id)
           })
-          response.data.result[5].entries.forEach((element, index) => { // 已工藝
+          response.data.result[5].entries.forEach((element, index) => { // 工艺的
             let text = element.text
-            if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
-              text = text.substring(0, text.indexOf(' (部分)'))
+            if (text.indexOf(' (区域)') > -1) { // 刪除(部分)字串
+              text = text.substring(0, text.indexOf(' (区域)'))
             }
             if (text.includes('\n')) { // 處理折行詞綴
               this.wrapStats.push(text)
@@ -973,25 +990,25 @@ export default {
       this.equipItems.length = 0
       this.mapBasic.option.length = 0
       this.gemBasic.option.length = 0
-      this.axios.get(`https://web.poe.garena.tw/api/trade/data/items`, )
+      this.axios.get(`https://poe.game.qq.com/api/trade/data/items`, )
         .then((response) => {
           this.allItems = response.data.result
           // TODO: 把 allItems 改為可套用至全域搜尋的資料格式
           let result = response.data.result
           result[0].entries.forEach((element, index) => { // "label": "飾品"
-            const basetype = ["碧珠護身符", "素布腰帶", "裂痕戒指"]
+            const basetype = ["碧珠护身符", "素布腰带", "裂隙戒指"]
             // _.isUndefined(element.flags) == true 表示非傳奇物品
             if (_.isUndefined(element.flags)) {
               accessoryIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
             }
             switch (accessoryIndex) {
               case 1: // 項鍊起始點 { "type": "碧珠護身符", "text": "碧珠護身符" }
-                element.name = "項鍊"
+                element.name = "项链"
                 element.option = "accessory.amulet"
                 this.equipItems.push(element)
                 break;
               case 2: // 腰帶起始點 { "type": "素布腰帶", "text": "素布腰帶" }
-                element.name = "腰帶"
+                element.name = "腰带"
                 element.option = "accessory.belt"
                 this.equipItems.push(element)
                 break;
@@ -1005,17 +1022,17 @@ export default {
             }
           });
           result[1].entries.forEach((element, index) => { // "label": "護甲"
-            const basetype = ["黃金戰甲", "異色鞋", "擒拿手套", "喚骨頭盔", "黃金聖炎", "火靈箭袋"]
+            const basetype = ["黄金战甲", "异色鞋(冰闪)", "擒拿手套", "唤骨头盔", "羊皮轻盾", "火焰箭袋"]
             if (_.isUndefined(element.flags)) {
               armourIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
             }
             switch (armourIndex) {
-              case 1: // 胸甲起始點 { "type": "黃金戰甲", "text": "黃金戰甲" }
+              case 1: // 胸甲起始點 { "type": "黄金战甲", "text": "黄金战甲" }
                 element.name = "胸甲"
                 element.option = "armour.chest"
                 this.equipItems.push(element)
                 break;
-              case 2: // 鞋子起始點 { "type": "異色鞋", "text": "異色鞋" }
+              case 2: // 鞋子起始點 { "type": "异色鞋(冰闪)", "text": "异色鞋(冰闪)" }
                 element.name = "鞋子"
                 element.option = "armour.boots"
                 this.equipItems.push(element)
@@ -1026,16 +1043,16 @@ export default {
                 this.equipItems.push(element)
                 break;
               case 4: // 頭部起始點 { "type": "喚骨頭盔", "text": "喚骨頭盔" }
-                element.name = "頭部"
+                element.name = "头盔"
                 element.option = "armour.helmet"
                 this.equipItems.push(element)
                 break;
-              case 5: // 盾牌起始點 { "type": "黃金聖炎", "text": "黃金聖炎" }
+              case 5: // 盾牌起始點 { "type": "羊皮轻盾", "text": "羊皮轻盾" }
                 element.name = "盾"
                 element.option = "armour.shield"
                 this.equipItems.push(element)
                 break;
-              case 6: // 箭袋起始點 { "type": "火靈箭袋", "text": "火靈箭袋" }
+              case 6: // 箭袋起始點 { "type": "火焰箭袋", "text": "火焰箭袋" }
                 element.name = "箭袋"
                 element.option = "armour.quiver"
                 this.equipItems.push(element)
@@ -1045,13 +1062,13 @@ export default {
             }
           });
           result[4].entries.forEach((element, index) => { // "label": "藥劑"
-            const basetype = ["小型複合藥劑"]
+            const basetype = ["小型复合药剂"]
             if (_.isUndefined(element.flags)) {
               flasksIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
             }
             switch (flasksIndex) {
               case 1: // 藥劑起始點 { "type": "小型複合藥劑", "text": "小型複合藥劑" }
-                element.name = "藥劑"
+                element.name = "药剂"
                 element.option = "flask"
                 this.equipItems.push(element)
                 break;
@@ -1060,13 +1077,13 @@ export default {
             }
           });
           result[6].entries.forEach((element, index) => { // "label": "珠寶"
-            const basetype = ["催眠之眼珠寶"]
+            const basetype = ["安睡之凝珠宝"]
             if (_.isUndefined(element.flags)) {
               jewelIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
             }
             switch (jewelIndex) {
               case 1: // 珠寶起始點 { "type": "催眠之眼珠寶", "text": "催眠之眼珠寶" }
-                element.name = "珠寶"
+                element.name = "珠宝"
                 element.option = "jewel"
                 this.equipItems.push(element)
                 break;
@@ -1075,7 +1092,7 @@ export default {
             }
           });
           result[8].entries.forEach((element, index) => { // "label": "武器"
-            const basetype = ["拳釘", "玻璃利片", "鏽斧", "朽木之棒", "鏽劍", "朽木法杖", "魚竿", "粗製弓", "朽木之幹", "石斧", "朽木巨錘", "鏽斑巨劍"]
+            const basetype = ["拳钉", "玻璃利片", "锈斧", "朽木之棒", "锈剑", "朽木法杖", "鱼竿", "粗制弓", "朽木之干", "石斧", "朽木巨锤", "锈斑巨剑"]
             if (_.isUndefined(element.flags)) {
               weaponIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
             }
@@ -1093,19 +1110,19 @@ export default {
                 this.equipItems.push(element)
                 break;
               case 3: // 單手斧起始點 { "type": "鏽斧", "text": "鏽斧" }
-                element.name = "單手斧"
+                element.name = "单手斧"
                 element.option = "weapon.oneaxe"
                 element.weapon = "weapon.one"
                 this.equipItems.push(element)
                 break;
               case 4: // 單手錘起始點 { "type": "朽木之棒", "text": "朽木之棒" }
-                element.name = "單手錘"
+                element.name = "单手锤"
                 element.option = "weapon.onemace"
                 element.weapon = "weapon.one"
                 this.equipItems.push(element)
                 break;
               case 5: // 單手劍起始點 { "type": "鏽劍", "text": "鏽劍" }
-                element.name = "單手劍"
+                element.name = "单手剑"
                 element.option = "weapon.onesword"
                 element.weapon = "weapon.one"
                 this.equipItems.push(element)
@@ -1117,7 +1134,7 @@ export default {
                 this.equipItems.push(element)
                 break;
               case 7: // { "type": "魚竿", "text": "魚竿" }
-                element.name = "釣竿"
+                element.name = "钓竿"
                 element.option = "weapon.rod"
                 this.equipItems.push(element)
                 break;
@@ -1127,25 +1144,25 @@ export default {
                 this.equipItems.push(element)
                 break;
               case 9: // 長杖起始點 { "type": "朽木之幹", "text": "朽木之幹" }
-                element.name = "長杖"
+                element.name = "长杖"
                 element.option = "weapon.staff"
                 element.weapon = "weapon.twomelee"
                 this.equipItems.push(element)
                 break;
               case 10: // 雙手斧起始點 { "type": "石斧", "text": "石斧" }
-                element.name = "雙手斧"
+                element.name = "双手斧"
                 element.option = "weapon.twoaxe"
                 element.weapon = "weapon.twomelee"
                 this.equipItems.push(element)
                 break;
               case 11: // 雙手錘起始點 { "type": "朽木巨錘", "text": "朽木巨錘" }
-                element.name = "雙手錘"
+                element.name = "双手锤"
                 element.option = "weapon.twomace"
                 element.weapon = "weapon.twomelee"
                 this.equipItems.push(element)
                 break;
               case 12: // 雙手劍起始點 { "type": "鏽斑巨劍", "text": "鏽斑巨劍" }
-                element.name = "雙手劍"
+                element.name = "双手剑"
                 element.option = "weapon.twosword"
                 element.weapon = "weapon.twomelee"
                 this.equipItems.push(element)
@@ -1155,13 +1172,13 @@ export default {
             }
           });
           result[13].entries.forEach((element, index) => { // "label": "劫盜裝備"
-            const basetype = ["鰻皮鞋底"]
+            const basetype = ["鳗皮鞋底"]
             if (_.isUndefined(element.flags)) {
               heistIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
             }
             switch (heistIndex) {
               case 1: // 劫盜裝備起始點 { "type": "鰻皮鞋底", "text": "鰻皮鞋底" }
-                element.name = "劫盜裝備"
+                element.name = "劫盗装备"
                 element.option = "heistequipment"
                 this.equipItems.push(element)
                 break;
@@ -1170,7 +1187,7 @@ export default {
             }
           });
           result[7].entries.forEach((element, index) => { // "label": "地圖"
-            const basetype = ["惡靈學院"] // 地圖起始點 { "type": "惡靈學院", "text": "惡靈學院" }
+            const basetype = ["恶灵学院"] // 地圖起始點 { "type": "惡靈學院", "text": "惡靈學院" }
             if (_.isUndefined(element.flags) && element.disc === "warfortheatlas") { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
               this.mapBasic.option.push(element.text)
             }
@@ -1178,22 +1195,11 @@ export default {
           result[5].entries.forEach((element, index) => { // "label": "技能寶石"
             this.gemBasic.option.push(element.text)
           });
-        })
-        .catch(function (error) {
-          vm.isApiError = true
-          vm.apiErrorStr = error
-          vm.startCountdown(10)
-          vm.resetSearchData()
-          vm.$message({
-            type: 'error',
-            message: `error: ${error}`
-          });
-          console.log(error);
-        })
+      })
     },
     leaguesAPI() { // 聯盟 API
       let vm = this
-      this.axios.get(`https://web.poe.garena.tw/api/trade/data/leagues`, )
+      this.axios.get(`https://poe.game.qq.com/api/trade/data/leagues`, )
         .then((response) => {
           const getID = _.property('id')
           this.leagues.option = _.map(response.data.result, 'id')
@@ -1214,7 +1220,7 @@ export default {
     },
     gggAPI() {
       let vm = this
-      const ignoreTyep = ["神諭之殿．神臨", "神諭之殿．歸徒", "神諭之殿．降師"] // 國際服的圖沒有這三種基底
+      const ignoreTyep = [""] // 國際服的圖沒有這三種基底
       let tempMapBasic = []
       this.mapBasic.option.forEach((element, index) => {
         if (stringSimilarity.findBestMatch(element, ignoreTyep).bestMatch.rating !== 1) { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
@@ -1266,7 +1272,7 @@ export default {
       this.$message({
         duration: 1200,
         type: 'success',
-        message: `${name} 區域已複製!`
+        message: `${name} 区域已复制!`
       });
       this.isMapAreaCollapse = false
     },
@@ -1275,7 +1281,7 @@ export default {
       this.$message({
         duration: 2000,
         type: 'success',
-        message: `已複製字串：${clipboard.readText().substring(0, 10)} ... ${this.wantedAddedText}`
+        message: `已复制字符串：${clipboard.readText().substring(0, 10)} ... ${this.wantedAddedText}`
       });
     },
     clickToSearch: _.debounce(function () { // TODO: 重構物品/地圖交替搜尋時邏輯 stats: [{type: "and", filters: [], disabled: true(?)}]
@@ -1283,10 +1289,10 @@ export default {
         this.searchJson.query.stats[0].filters.length = 0
       }
       if (this.isMap && this.mapBasic.isSearch) {
-        this.searchName = `物品名稱 <br>『${this.mapBasic.chosenM}』`
+        this.searchName = `物品名称 <br>『${this.mapBasic.chosenM}』`
       }
       if (this.isGem && this.gemBasic.isSearch) {
-        this.searchName = `物品名稱 <br>『${this.gemQualitySet.chosenObj.prop !== '0' && this.gemQualitySet.isSearch ? `${this.gemQualitySet.chosenObj.label} ` : ''}${this.gemBasic.chosenG}』`
+        this.searchName = `物品名称 <br>『${this.gemQualitySet.chosenObj.prop !== '0' && this.gemQualitySet.isSearch ? `${this.gemQualitySet.chosenObj.label} ` : ''}${this.gemBasic.chosenG}』`
       }
       this.searchTrade(this.searchJson)
     }, 500),
@@ -1306,9 +1312,9 @@ export default {
       itemArray.forEach((element, index) => {
         let isEnchantOrImplicit = index > 0 ? itemArray[index - 1].indexOf("(enchant)") > -1 || itemArray[index - 1].indexOf("(implicit)") > -1 : false
         // "--------" 字串前一筆資料若為固定詞或附魔詞，則不將此 index 視為詞綴結束點
-        if (stringSimilarity.compareTwoStrings(element, '魔符階級:') > 0.7) {
+        if (stringSimilarity.compareTwoStrings(element, '魔符等级:') > 0.7) {
           itemStatStart = index + 2
-        } else if (stringSimilarity.compareTwoStrings(element, '物品等級:') > 0.7) {
+        } else if (stringSimilarity.compareTwoStrings(element, '物品等级:') > 0.7) {
           itemStatStart = index + 2
           itemLevelIndex = index
         }
@@ -1316,6 +1322,7 @@ export default {
           let firstWSE = wrapStatsElement.split("\n")[0]
           let secondWSE = wrapStatsElement.split("\n")[1]
           let newLineCount = wrapStatsElement.split("\n").length - 1
+          // console.log(firstWSE,secondWSE)
           let tempStatArray = []
           // 比對折行詞綴第一筆與第二筆，比對成功就將 itemArray 刪除指定筆數
           if (element && stringSimilarity.compareTwoStrings(firstWSE, element) > 0.7 && stringSimilarity.compareTwoStrings(secondWSE, itemArray[index + 1]) > 0.7) {
@@ -1326,30 +1333,30 @@ export default {
             spliceWrapStats(newLineCount, index)
           }
         });
-        if (element.indexOf("附加的小型天賦給予：") > -1 && element.indexOf("(enchant)") == -1) { // 有折行的星團珠寶附魔詞綴
+        if (element.indexOf("增加的小天赋获得：") > -1 && element.indexOf("(enchant)") == -1) { // 有折行的星團珠寶附魔詞綴
           switch (true) {
-            case element.indexOf("斧攻擊增加 12% 擊中和異常狀態傷害") > -1:
-              itemArray[index] = `${itemArray[index]}\n劍攻擊增加 12% 擊中和異常狀態傷害 (enchant)`
+            case element.indexOf("斧类攻击造成的击中和异常状态伤害提高 12%") > -1:
+              itemArray[index] = `${itemArray[index]}\n剑类攻击造成的击中和异常状态伤害提高 12% (enchant)`
               spliceWrapStats(1, index)
               break;
-            case element.indexOf("長杖攻擊增加 12% 擊中和異常狀態傷害") > -1:
-              itemArray[index] = `${itemArray[index]}\n錘或權杖攻擊增加 12% 擊中和異常狀態傷害 (enchant)`
+            case element.indexOf("长杖攻击造成的击中和异常状态伤害提高 12%") > -1:
+              itemArray[index] = `${itemArray[index]}\n锤类或短杖攻击造成的击中和异常状态伤害提高 12% (enchant)`
               spliceWrapStats(1, index)
               break;
-            case element.indexOf("爪攻擊增加 12% 擊中和異常狀態傷害") > -1:
-              itemArray[index] = `${itemArray[index]}\n匕首攻擊增加 12% 擊中和異常狀態傷害 (enchant)`
+            case element.indexOf("爪类攻击造成的击中和异常状态伤害提高 12%") > -1:
+              itemArray[index] = `${itemArray[index]}\n匕首攻击造成的击中和异常状态伤害提高 12% (enchant)`
               spliceWrapStats(1, index)
               break;
-            case element.indexOf("持弓類武器時增加 12% 傷害") > -1:
-              itemArray[index] = `${itemArray[index]}\n增加 12% 弓技能持續傷害 (enchant)`
+            case element.indexOf("弓类的伤害提高 12%") > -1:
+              itemArray[index] = `${itemArray[index]}\n弓类技能的持续伤害效果提高 12% (enchant)`
               spliceWrapStats(1, index)
               break;
-            case element.indexOf("增加 12% 陷阱傷害") > -1:
-              itemArray[index] = `${itemArray[index]}\n增加 12% 地雷傷害 (enchant)`
+            case element.indexOf("陷阱伤害提高 12%") > -1:
+              itemArray[index] = `${itemArray[index]}\n地雷伤害提高 12% (enchant)`
               spliceWrapStats(1, index)
               break;
-            case element.indexOf("增加 10% 藥劑回復生命") > -1:
-              itemArray[index] = `${itemArray[index]}\n增加 10% 藥劑回復魔力 (enchant)`
+            case element.indexOf("药剂回复的生命提高 10%") > -1:
+              itemArray[index] = `${itemArray[index]}\n药剂回复的魔力提高 10% (enchant)`
               spliceWrapStats(1, index)
               break;
             default:
@@ -1359,17 +1366,18 @@ export default {
         if (element === "--------" && !isEnchantOrImplicit && itemStatStart && index > itemStatStart && itemStatEnd == itemArray.length - 1) { // 判斷隨機詞墜結束點
           itemStatEnd = index
         }
-        if (element.indexOf('未鑑定') > -1) {
+        if (element.indexOf('未鉴定') > -1) {
           itemStatEnd = index - 1
           return
         }
-      });
 
+      });
       function findBestStat(text, stats) { // 物品上原先詞綴 與 原先詞綴數值用'#'取代的兩種字串皆判斷並取最符合那一筆
         let originalObj = stringSimilarity.findBestMatch(text, stats)
         let modifiedObj = stringSimilarity.findBestMatch(text.replace(/\d+/g, '#'), stats)
         return originalObj.bestMatch.rating > modifiedObj.bestMatch.rating ? originalObj : modifiedObj
       }
+
       for (let index = itemStatStart; index < itemStatEnd; index++) {
         if (itemArray[index] !== "--------") {
           let text = itemArray[index]
@@ -1381,17 +1389,17 @@ export default {
           } else if (itemArray[index].indexOf('(crafted)') > -1) { // 已工藝屬性
             text = text.substring(0, text.indexOf('(crafted)'))
             tempStat.push(findBestStat(text, this.craftedStats))
-            tempStat[tempStat.length - 1].type = "工藝"
+            tempStat[tempStat.length - 1].type = "工艺"
           } else if (itemArray[index].indexOf('(enchant)') > -1) {
             text = text.substring(0, text.indexOf('(enchant)'))
             tempStat.push(findBestStat(text, this.enchantStats))
             tempStat[tempStat.length - 1].type = "附魔"
           } else if (rarityFlag) { // 傳奇裝詞綴
             tempStat.push(findBestStat(text, this.explicitStats))
-            tempStat[tempStat.length - 1].type = "傳奇"
+            tempStat[tempStat.length - 1].type = "传奇"
           } else { // 隨機屬性
             tempStat.push(findBestStat(text, this.explicitStats))
-            tempStat[tempStat.length - 1].type = "隨機"
+            tempStat[tempStat.length - 1].type = "随机"
           }
         }
       }
@@ -1468,11 +1476,11 @@ export default {
         if (statID === "enchant.stat_3948993189") {
           let obj = stringSimilarity.findBestMatch(itemStatText, this.clusterJewelStats)
           optionValue = parseInt(obj.ratings[obj.bestMatchIndex + 1].target, 10)
-          apiStatText = `附加的小型天賦給予：\n${obj.ratings[obj.bestMatchIndex].target}`
+          apiStatText = `增加的小天赋获得：\n${obj.ratings[obj.bestMatchIndex].target}`
         } else if (statID === "enchant.stat_2954116742") {
           let obj = stringSimilarity.findBestMatch(itemStatText, this.allocatesStats)
           optionValue = parseInt(obj.ratings[obj.bestMatchIndex + 1].target, 10)
-          apiStatText = `配置塗油天賦：${obj.ratings[obj.bestMatchIndex].target}`
+          apiStatText = `配置涂油天赋：${obj.ratings[obj.bestMatchIndex].target}`
         } else {
           for (let index = 0; index < itemStatArray.length; index++) { // 比較由空格拆掉後的詞綴陣列元素
             if (randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最大值
@@ -1495,8 +1503,8 @@ export default {
           }
         }
         let isNegativeStat = false // API 詞綴只有"增加"，但物品可能有"減少"詞綴相關處理
-        if (apiStatText.includes('增加') && itemStatText.includes('減少')) {
-          apiStatText = apiStatText.replace('增加', '減少')
+        if (apiStatText.includes('增加') && itemStatText.includes('减少')) {
+          apiStatText = apiStatText.replace('增加', '减少')
           isNegativeStat = true
         }
         if (statID === "enchant.stat_3086156145") { // 星團珠寶附加天賦數量調整為帶入最大值，最小值為最大值 - 1
@@ -1524,7 +1532,7 @@ export default {
         this.searchJson.query.filters.type_filters.filters.rarity = { // 增加稀有度 filter
           "option": this.raritySet.chosenObj.prop
         }
-        if (this.isMap && this.raritySet.chosenObj.label === '傳奇') {
+        if (this.isMap && this.raritySet.chosenObj.label === '传奇') {
           this.mapCategory = {
             isShaper: false,
             isElder: false,
@@ -1541,7 +1549,7 @@ export default {
         prop: ''
       }
       this.raritySet.chosenObj = {
-        label: "非傳奇",
+        label: "非传奇",
         prop: 'nonunique'
       }
       this.raritySet.isSearch = true
@@ -1549,12 +1557,13 @@ export default {
       // 判斷物品基底
       this.itemBasic.text = matchItem.text
       // 判斷物品等級
-      if (item.indexOf('物品等級: ') > -1) {
-        let levelPos = item.substring(item.indexOf('物品等級: ') + 5)
+      if (item.indexOf('物品等级: ') > -1) {
+        let levelPos = item.substring(item.indexOf('物品等级: ') + 5)
         let levelPosEnd = levelPos.indexOf(NL)
         let levelValue = parseInt(levelPos.substring(0, levelPosEnd).trim(), 10)
         this.itemLevel.min = levelValue >= 86 ? 86 : levelValue // 物等超過86 只留86
       }
+
       // 判斷插槽連線
       if (item.indexOf('插槽: ') > -1) {
         const regLinkStr = /[A-Z]/g // 全域搜尋大寫英文字母
@@ -1578,6 +1587,7 @@ export default {
             break;
         }
       }
+      console.log(matchItem.name,matchItem.option)
       // 判斷物品分類
       this.itemCategory.option.push({
         label: matchItem.name,
@@ -1589,7 +1599,7 @@ export default {
       }
       if (matchItem.weapon) {
         this.itemCategory.option.push({
-          label: matchItem.weapon === "weapon.one" ? "單手武器" : "雙手武器",
+          label: matchItem.weapon === "weapon.one" ? "单手武器" : "双手武器",
           prop: matchItem.weapon === "weapon.one" ? "weapon.one" : "weapon.twomelee",
         })
       }
@@ -1602,39 +1612,39 @@ export default {
       // 判斷勢力基底
       this.itemExBasic.isSearch = true
       switch (true) {
-        case itemArray.indexOf('塑者之物') > -1:
+        case itemArray.indexOf('塑界之器') > -1:
           this.itemExBasic.chosenObj = {
-            label: "塑者之物",
+            label: "塑界之器",
             prop: "shaper_item"
           }
           break;
-        case itemArray.indexOf('尊師之物') > -1:
+        case itemArray.indexOf('裂界之器') > -1:
           this.itemExBasic.chosenObj = {
-            label: "尊師之物",
+            label: "裂界之器",
             prop: "elder_item"
           }
           break;
-        case itemArray.indexOf('聖戰軍王物品') > -1:
+        case itemArray.indexOf('圣战者物品') > -1:
           this.itemExBasic.chosenObj = {
-            label: "聖戰君王物品",
+            label: "圣战者物品",
             prop: "crusader_item"
           }
           break;
-        case itemArray.indexOf('救贖者物品') > -1:
+        case itemArray.indexOf('救赎者物品') > -1:
           this.itemExBasic.chosenObj = {
-            label: "救贖者物品",
+            label: "救赎者物品",
             prop: "redeemer_item"
           }
           break;
-        case itemArray.indexOf('總督軍物品') > -1:
+        case itemArray.indexOf('督军物品') > -1:
           this.itemExBasic.chosenObj = {
-            label: "總督軍物品",
+            label: "督军物品",
             prop: "warlord_item"
           }
           break;
-        case itemArray.indexOf('狩獵者物品') > -1:
+        case itemArray.indexOf('狩猎者物品') > -1:
           this.itemExBasic.chosenObj = {
-            label: "狩獵者物品",
+            label: "狩猎者物品",
             prop: "hunter_item"
           }
           break;
@@ -1675,18 +1685,18 @@ export default {
         this.searchJson.query.type = this.replaceString(this.itemBasic.text) // 增加物品基底 filter
       }
     },
+    categoryChange(value) {
+      if (this.isSearchJson) {
+        this.searchJson.query.filters.type_filters.filters.category = { // 修改物品種類 filter
+          "option": this.itemCategory.chosenObj.prop
+        }
+      }
+    },
     isItemCategorySearch() {
       if (!this.itemCategory.isSearch && this.itemCategory.chosenObj.prop && this.isSearchJson) {
         delete this.searchJson.query.filters.type_filters.filters.category // 刪除物品種類 filter
       } else if (this.itemCategory.isSearch && this.itemCategory.chosenObj.prop && this.isSearchJson) {
         this.searchJson.query.filters.type_filters.filters.category = { // 增加物品種類 filter
-          "option": this.itemCategory.chosenObj.prop
-        }
-      }
-    },
-    categoryChange(value) {
-      if (this.isSearchJson) {
-        this.searchJson.query.filters.type_filters.filters.category = { // 修改物品種類 filter
           "option": this.itemCategory.chosenObj.prop
         }
       }
@@ -1748,12 +1758,12 @@ export default {
         isBlighted: false
       }
       this.raritySet.chosenObj = {
-        label: "非傳奇",
+        label: "非传奇",
         prop: 'nonunique'
       }
       this.raritySet.isSearch = true
       this.isRaritySearch()
-      let mapPos = item.substring(item.indexOf('地圖階級:') + 5) // 地圖階級截斷字串
+      let mapPos = item.substring(item.indexOf('地图阶级:') + 5) // 地圖階級截斷字串
       let mapPosEnd = mapPos.indexOf(NL) // 地圖階級換行定位點
       let mapTier = parseInt(mapPos.substring(0, mapPosEnd).trim(), 10)
       this.mapLevel.min = mapTier
@@ -1777,14 +1787,14 @@ export default {
       this.searchJson.query.filters.map_filters.filters.map_blighted = { // 過濾凋落圖
         "option": "false"
       }
-      if (Rarity === "傳奇") { //傳奇地圖
+      if (Rarity === "传奇") { //傳奇地圖
         this.raritySet.chosenObj = {
-          label: "傳奇",
+          label: "传奇",
           prop: 'unique'
         }
         this.raritySet.isSearch = true
         this.isRaritySearch()
-      } else if (item.indexOf('區域被塑界者控制 (implicit)') > -1) { // 塑界者地圖
+      } else if (item.indexOf('地图被塑界者影响 (implicit)') > -1) { // 塑界者地圖
         this.mapCategory.isShaper = true
         this.searchJson.query.stats[0].filters[0] = {
           "id": "implicit.stat_1792283443",
@@ -1792,7 +1802,7 @@ export default {
             "option": "1"
           }
         }
-      } else if (item.indexOf('區域被異界尊師控制 (implicit)') > -1) { // 尊師地圖
+      } else if (item.indexOf('地图被裂界者影响 (implicit)') > -1) { // 尊師地圖
         this.mapCategory.isElder = true
         this.searchJson.query.stats[0].filters[0] = {
           "id": "implicit.stat_1792283443",
@@ -1800,36 +1810,36 @@ export default {
             "option": "2"
           }
         }
-        if (item.indexOf('地圖被異界．奴役佔據 (implicit)') > -1) { // 尊師守衛地圖
+        if (item.indexOf('地图被裂界守卫：奴役占领 (implicit)') > -1) { // 尊師守衛地圖
           this.mapElderGuard.chosenObj = {
-            label: "異界．奴役",
+            label: "裂界守卫：奴役",
             prop: "1"
           }
           this.mapElderGuard.isSearch = true
           this.isMapElderGuardSearch()
-        } else if (item.indexOf('地圖被異界．根除佔據 (implicit)') > -1) {
+        } else if (item.indexOf('地图被裂界守卫：寂灭占领 (implicit)') > -1) {
           this.mapElderGuard.chosenObj = {
-            label: "異界．根除",
+            label: "裂界守卫：寂灭",
             prop: "2"
           }
           this.mapElderGuard.isSearch = true
           this.isMapElderGuardSearch()
-        } else if (item.indexOf('地圖被異界．干擾佔據 (implicit)') > -1) {
+        } else if (item.indexOf('地图被裂界守卫：约束占领 (implicit)') > -1) {
           this.mapElderGuard.chosenObj = {
-            label: "異界．干擾",
+            label: "裂界守卫：约束",
             prop: "3"
           }
           this.mapElderGuard.isSearch = true
           this.isMapElderGuardSearch()
-        } else if (item.indexOf('地圖被異界．淨化佔據 (implicit)') > -1) {
+        } else if (item.indexOf('地图被裂界守卫：净世占领 (implicit)') > -1) {
           this.mapElderGuard.chosenObj = {
-            label: "異界．淨化",
+            label: "裂界守卫：净世",
             prop: "4"
           }
           this.mapElderGuard.isSearch = true
           this.isMapElderGuardSearch()
         }
-      } else if (item.indexOf('凋落的') > -1 || item.indexOf('Blighted') > -1) {
+      } else if (item.indexOf('枯疫') > -1 || item.indexOf('Blighted') > -1) {  //TODO ?
         this.mapCategory.isBlighted = true
         this.searchJson.query.filters.map_filters.filters.map_blighted = {
           "option": "true"
@@ -1910,16 +1920,18 @@ export default {
   watch: {
     copyText: function () {
       let item = this.copyText;
-      if (item.indexOf('稀有度:') === -1 || !this.copyText || this.isApiError) { // POE 內的文字必定有稀有度
+      if (item.indexOf('稀 有 度:') === -1 || !this.copyText || this.isApiError) { // POE 內的文字必定有稀有度
+        console.log("item.indexOf('稀 有 度:') === -1 || !this.copyText || this.isApiError return")
         return
       }
       if (this.isCounting) {
+        console.log("isCounting:" + this.isCounting)
         this.cleanCopyText()
         this.cleanClipboard()
         this.$message({
           duration: 2000,
           type: 'error',
-          message: `請等待限制間隔倒數完畢後再次按下 Ctrl+C`
+          message: `请等待限制间隔倒数完毕再次按下 Ctrl+C`
         });
         return
       }
@@ -1928,7 +1940,7 @@ export default {
       const NL = this.newLine
       let itemArray = item.split(NL); // 以行數拆解複製物品文字
       const regExp = new RegExp("[A-Za-z]+"); // 有英文字就代表是國際服
-      if (item.indexOf('點擊右鍵將此預言附加於你的角色之上。') > -1) { // 預言特殊判斷
+      if (item.indexOf('右键点击后赋予你的角色预言之力') > -1) { // 預言特殊判斷
         this.isGarenaSvr = regExp.test(itemArray[3]) ? false : true
       } else {
         this.isGarenaSvr = regExp.test(itemArray[1]) ? false : true // 國際服中文化判斷
@@ -1936,15 +1948,15 @@ export default {
       let posRarity = item.indexOf(': ')
       let Rarity = itemArray[0].substring(posRarity + 2).trim()
       let searchName = itemArray[1]
-      this.searchName = itemArray[2] === "--------" ? `物品名稱 <br>『${itemArray[1]}』` : `物品名稱 <br>『${itemArray[1]} ${itemArray[2]}』`
+      this.searchName = itemArray[2] === "--------" ? `物品名称 <br>『${itemArray[1]}』` : `物品名称 <br>『${itemArray[1]} ${itemArray[2]}』`
       let itemBasic = itemArray[2]
       let itemNameString = itemArray[2] === "--------" ? itemArray[1] : `${itemArray[1]} ${itemArray[2]}`
       let itemBasicCount = 0
 
       this.equipItems.some(element => {
         let itemNameStringIndex = itemNameString.indexOf(element.text)
-        // console.log(itemNameString, itemNameStringIndex)
-        if (itemNameStringIndex > -1 && !itemBasicCount && (itemNameString.indexOf('碎片') === -1 || Rarity !== '傳奇')) {
+        console.log("itemNameString,itemNameStringIndex:" + itemNameString, itemNameStringIndex)
+        if (itemNameStringIndex > -1 && !itemBasicCount && (itemNameString.indexOf('碎片') === -1 || Rarity !== '传奇')) {
           itemBasicCount++
           element.text = this.isGarenaSvr ? element.text : this.replaceString(itemNameString)
           this.itemAnalysis(item, itemArray, element)
@@ -1954,12 +1966,12 @@ export default {
         }
       });
 
-      if (Rarity === "傳奇" && item.indexOf('地圖階級') === -1 && item.indexOf('在塔恩的鍊金室') === -1) { // 傳奇道具
-        if (item.indexOf('未鑑定') === -1) { // 已鑑定傳奇
+      if (Rarity === "传奇" && item.indexOf('地图阶级') === -1 && item.indexOf('在丹恩的试验室') === -1) { // 傳奇道具
+        if (item.indexOf('未鉴定') === -1) { // 已鑑定傳奇
           this.searchJson.query.name = this.replaceString(searchName)
           this.searchJson.query.type = this.replaceString(itemBasic)
           this.raritySet.chosenObj = {
-            label: "傳奇",
+            label: "传奇",
             prop: 'unique'
           }
           this.raritySet.isSearch = true
@@ -1972,7 +1984,7 @@ export default {
             searchName = searchName.substring(4)
           }
           this.raritySet.chosenObj = {
-            label: "傳奇",
+            label: "传奇",
             prop: 'unique'
           }
           this.raritySet.isSearch = true
@@ -1981,23 +1993,23 @@ export default {
           this.$message({
             duration: 2000,
             type: 'warning',
-            message: `未鑑定傳奇物品會搜到相同基底的其他傳奇裝`
+            message: `未鉴定传奇物品会搜到相同基底的其他传奇装`
           });
         }
-      } else if (Rarity === "命運卡" || Rarity === "通貨" || Rarity === "通貨不足") {
+      } else if (Rarity === "命运卡" || Rarity === "通货" || Rarity === "通货不足") {
         this.searchJson.query.type = this.replaceString(searchName)
-      } else if (Rarity === "寶石") {
+      } else if (Rarity === "宝石") {
         this.isGem = true
 
-        if (item.indexOf('異常的 ') > -1) { // 替代品質判斷
+        if (item.indexOf('异常的 ') > -1) { // 替代品質判斷
           this.gemQualitySet.isSearch = true
           this.gemQualitySet.chosenObj.prop = '1'
-          this.gemQualitySet.chosenObj.label = '異常的'
+          this.gemQualitySet.chosenObj.label = '异常的'
           this.gemBasic.chosenG = searchName.substring(4)
-        } else if (item.indexOf('相異的 ') > -1) {
+        } else if (item.indexOf('相异的 ') > -1) {
           this.gemQualitySet.isSearch = true
           this.gemQualitySet.chosenObj.prop = '2'
-          this.gemQualitySet.chosenObj.label = '相異的'
+          this.gemQualitySet.chosenObj.label = '相异的'
           this.gemBasic.chosenG = searchName.substring(4)
         } else if (item.indexOf('幻影的 ') > -1) {
           this.gemQualitySet.isSearch = true
@@ -2007,29 +2019,29 @@ export default {
         } else {
           this.gemQualitySet.isSearch = false
           this.gemQualitySet.chosenObj.prop = '0'
-          this.gemQualitySet.chosenObj.label = '精良的（預設）'
+          this.gemQualitySet.chosenObj.label = '精良的（默认）'
           this.gemBasic.chosenG = searchName
         }
         this.gemQualityTypeInput()
 
-        if (item.indexOf('瓦爾．') > -1) { // 瓦爾技能
-          let vaalPos = item.substring(item.indexOf('瓦爾．'))
+        if (item.indexOf('瓦尔．') > -1) { // 瓦爾技能
+          let vaalPos = item.substring(item.indexOf('瓦尔．'))
           let vaalPosEnd = vaalPos.indexOf(NL)
           let vaalGem = vaalPos.substring(0, vaalPosEnd)
-          this.searchName = `物品名稱『${vaalGem}』`
+          this.searchName = `物品名称『${vaalGem}』`
           this.isGarenaSvr = regExp.test(vaalGem) ? false : true
           this.gemBasic.chosenG = vaalGem
         }
         this.gemBasic.isSearch = true
         this.isGemBasicSearch()
 
-        let levelPos = item.substring(item.indexOf('等級: ') + 4)
+        let levelPos = item.substring(item.indexOf('等级: ') + 4)
         let levelPosEnd = levelPos.indexOf(NL)
         this.gemLevel.min = parseInt(levelPos.substring(0, levelPosEnd).replace(/[+-]^\D+/g, ''), 10)
 
         let minQuality = 0
-        if (item.indexOf('品質: +') > -1) {
-          let quaPos = item.substring(item.indexOf('品質: +') + 5) // 品質截斷字串 (包含'品質: +'前的字串全截斷)
+        if (item.indexOf('品质: +') > -1) {
+          let quaPos = item.substring(item.indexOf('品质: +') + 5) // 品質截斷字串 (包含'品質: +'前的字串全截斷)
           let quaPosEnd = quaPos.indexOf('% (augmented)') // 品質定位點
           minQuality = parseInt(quaPos.substring(0, quaPosEnd).trim(), 10)
         }
@@ -2038,27 +2050,29 @@ export default {
         }
         this.gemQuality.min = minQuality
         this.isGemQualitySearch()
-      } else if (Rarity === "普通" && (item.indexOf('透過聖殿實驗室或個人') > -1 || item.indexOf('可以使用於個人的地圖裝置來增加地圖的詞綴') > -1 || item.indexOf('放置兩個以上不同的徽印在地圖裝置中') > -1 || item.indexOf('你必須完成異界地圖中出現的全部六種試煉才能進入此區域') > -1 || item.indexOf('擊殺指定數量的怪物後會掉落培育之物') > -1)) {
+
+      } else if (Rarity === "普通" && (item.indexOf('私人地图装置中使用') > -1 || item.indexOf('可以在私人地图装置中使用，为地图添加词缀') > -1 || item.indexOf('将两种以上的不同印记放进地图装置') > -1 || item.indexOf('你必须完成异界地图中出现的全部六种试炼才能进入此区域') > -1 || item.indexOf('孕育的物品在击败特定数量的怪物后掉落') > -1)) {
         // 地圖碎片、裂痕石、徽印、聖甲蟲、眾神聖器、女神祭品、培育器
         this.searchJson.query.type = this.replaceString(searchName)
-      } else if (Rarity === "普通" && (item.indexOf('點擊右鍵將此預言附加於你的角色之上。') > -1)) { // 預言
+      } else if (Rarity === "普通" && (item.indexOf('右键点击后赋予你的角色预言之力') > -1)) { // 預言
         let name = this.isGarenaSvr ? searchName : this.replaceString(searchName.split('(')[1])
         this.searchJson.query.name = name
-      } else if (item.indexOf('地圖階級') > -1) { // 地圖搜尋
+      } else if (item.indexOf('地图阶级') > -1) { // 地圖搜尋
         this.mapAnalysis(item, itemArray, Rarity)
       } else if (this.isItem && (Rarity === "稀有" || Rarity === "魔法" || Rarity === "普通")) {
         this.itemStatsAnalysis(itemArray, 0)
         return
       } else {
-        this.status = this.isItem ? '' : `目前版本尚未支援搜尋鍊魔器官及 3.12 新試驗基底、聯盟相關道具`
+        console.log(">>>>>>>>>>>目前版本尚未支援:\n" + item)
+        this.status = this.isItem ? '' : `目前版本尚未支援搜索炼魔器官及 3.12 新试验基地、联盟相关道具`
         return
       }
       this.searchTrade(this.searchJson)
     },
     isGarenaSvr: function () { // 國際服相關 function 處理
-      console.log(">>>>>>>>>isGarenaSvr:" + this.isGarenaSvr);
+      // console.log(">>><<<isGarenaSvr:" + this.isGarenaSvr);
       let vm = this
-      this.baseUrl = this.isGarenaSvr ? 'https://web.poe.garena.tw' : 'https://www.pathofexile.com'
+      this.baseUrl = this.isGarenaSvr ? 'https://poe.game.qq.com' : 'https://www.pathofexile.com'
       if (!this.isGarenaSvr) {
         this.leagues.option = this.gggLeagues
         this.leagues.chosenL = this.gggLeagues[0]
@@ -2172,10 +2186,10 @@ export default {
       return !_.isEmpty(this.searchJson)
     },
     pricedText() {
-      return this.isPriced ? "有標價" : "未標價"
+      return this.isPriced ? "有标价" : "未标价"
     },
     whichServer() {
-      return this.isGarenaSvr ? "台服" : "國際服"
+      return this.isGarenaSvr ? "Q服" : "国际服"
     },
     statsFontColor() {
       return function (item) {
@@ -2190,12 +2204,12 @@ export default {
               'color': '#8181ff'
             }
             break;
-          case '工藝':
+          case '工艺':
             return {
               'color': '#8181ff'
             }
             break;
-          case '傳奇':
+          case '传奇':
             return {
               'color': '#af6025'
             }
