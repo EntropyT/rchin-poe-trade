@@ -4,43 +4,38 @@
 ![GitHub Latest Releases](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/latest/total)
 ![GitHub Release Date](https://img.shields.io/github/release-date/rChinnnn/rchin-poe-trade)
 
-# rChin POE Trade
-POE 快速查價工具 (Built with Electron and Vue.)
-> 絕大部分的物品皆可搜尋 - 限定台服及國際服(中文化)使用 
+# rChin POE Trade For CN
+POE 快速查价工具 (Built with Electron and Vue.)
+> 绝大部分的物品皆可搜寻 - 限定Q服（腾讯服）及国际服(中文化)使用 
 
-### 贊助連結 
-若此工具對你有不少幫助，也有餘力的話，請作者在開發新功能時喝瓶麥香紅茶或一杯咖啡吧：）
-  * [麥香紅茶（O'Pay）](https://p.opay.tw/lE5Yu)
-  * [Buy me a coffee](https://www.buymeacoffee.com/rChinnn)
+### 安装版本说明
+* 点选 [Releases页面](https://github.com/EntropyT/rchin-poe-trade/releases)，有两种版本可以下载
+    * `rchin-poe-trade-Setup-xxx.exe` 安装版，若程序侦测到有最新版，会在背景下载新版本并在重开程序时更新
+    * `rchin-poe-trade-xxx.exe` 绿色版，无法支援自动更新
 
-### 安裝版本說明
-* 點選 [Releases頁面](https://github.com/rChinnnn/rchin-poe-trade/releases)，有兩種版本可以下載
-    * `rchin-poe-trade-Setup-1.312.3.exe` 安裝版，若程式偵測到有最新版，會在背景下載新版本並在重開程式時更新
-    * `rchin-poe-trade-1.312.3.exe` 可攜版，無法支援自動更新
-
-## 【免責聲明】
-* **使用此程式者請自行承擔所有可能後果和風險**
-  * 此程式並無修改任何記憶體
-  * 運作原理為抓取 POE 遊戲內對物品複製後的文字進行分析，以利快速查價
-  * 串接的 API 皆為官方公開資源，請勿於短時間內快速搜尋造成伺服器負擔
+## 【免责申明】
+* **使用此程序者请自行承担所有可能后果和风险**
+  * 此程序并无修改任何内存和游戏本体
+  * 运作原理为抓取 POE 游戏内对物品复制后的文字进行分析，以利快速查价
+  * 调用的 API 皆为官方公开资源，请勿于短时间内快速搜索造成服务器负担
  
-## 熱鍵功能
-| 按鍵 | 功能說明 | 
+## 热键功能
+| 按键 | 功能说明 | 
 | --- | --- | 
-| F5 | 程式顯示在最上層，並且透明化 (可漂浮在POE程式上) | 
-| F6 | 程式取消在最上層，並取消透明化 | 
+| F5 | 程序显示在最上层，并且透明化 (可漂浮在POE程序上) | 
+| F6 | 程序取消在最上层，并取消透明化 | 
 | PageUp   | 透明化程度 +5% | 
 | PageDown | 透明化程度 -5% | 
 
-**熱鍵注意事項：所有熱鍵於 POE 遊戲視窗內皆無作用！必須在工具視窗內才能驅動各功能**
+**热键注意事项：所有热键于 POE 游戏视窗内皆无作用！必须在工具视窗内才能使用各功能**
 
-## 使用說明
-1. 將程式開啟
-2. 點回 Home 頁籤
-3. 切換視窗回遊戲中
-4. 將滑鼠停在物品上，按下 Ctrl+C 
-5. 程式將自動判斷此次搜尋物品
-6. 各類物品有不同設定，詳見下列狀況
+## 使用说明
+1. 将程序开启
+2. 点回 Home 页签
+3. 切换视窗回游戏中
+4. 将鼠标停在游戏物品上，按下 Ctrl+C 
+5. 程序将自动判断此次搜索物品
+6. 各类物品有不同设定，详见下列状况
 
 - [非自動搜尋項目](#非自動搜尋項目)
     - [非傳奇裝備](#非傳奇裝備)
