@@ -2,7 +2,7 @@
 <div class="about">
   <div style="padding:5px 30px;">
     <b-card-group deck>
-      <b-card border-variant="primary" header="POE 查价工具 v3.12.4.1" header-bg-variant="primary" header-text-variant="white" align="center">
+      <b-card border-variant="primary" header="POE 查价工具 v1.312.4.1" header-bg-variant="primary" header-text-variant="white" align="center">
         <b-card-text>作者：EntropyT | 原作者：rChinnnn</b-card-text>
         <b-card-text>
           <b-button @click="openLink(`https://github.com/EntropyT/rchin-poe-trade`)" size="sm" variant="outline-primary" class="mb-2">
