@@ -9,9 +9,8 @@ POE 快速查价工具 (Built with Electron and Vue.)
 > 绝大部分的物品皆可搜寻 - 限定Q服（腾讯服）及国际服(中文化)使用 
 
 ### 安装版本说明
-* 点选 [Releases页面](https://github.com/EntropyT/rchin-poe-trade/releases)，有两种版本可以下载
-    * `rchin-poe-trade-Setup-1.312.4.exe` 安装版，若程序侦测到有最新版，会在背景下载新版本并在重开程序时更新
-    * `rchin-poe-trade-1.312.4.exe` 绿色版，无法支援自动更新
+* 点选 [Releases页面](https://github.com/EntropyT/rchin-poe-trade/releases):
+    * `rchin-poe-trade-Setup-3.12.4.1.exe` 安装版，若程序侦测到有最新版，会在背景下载新版本并在重开程序时更新
 
 ## 【免责申明】
 * **使用此程序者请自行承担所有可能后果和风险**
