@@ -5,7 +5,7 @@
       <b-card border-variant="primary" header="POE 查价工具 v1.312.4.1" header-bg-variant="primary" header-text-variant="white" align="center">
         <b-card-text>作者：EntropyT | 原作者：rChinnnn</b-card-text>
         <b-card-text>
-          <b-button @click="openLink(`https://github.com/EntropyT/rchin-poe-trade`)" size="sm" variant="outline-primary" class="mb-2">
+          <b-button @click="openLink(`https://github.com/EntropyT/EntropyT-POE-Trade4CN`)" size="sm" variant="outline-primary" class="mb-2">
             历史版本请点我
           </b-button>
         </b-card-text>
@@ -32,7 +32,7 @@
         <b-card-text>3. 将鼠标停在物品上，按下 Ctrl+C </b-card-text>
         <b-card-text>4. 程序将自动判断此次搜索物品进行查价 </b-card-text>
         <b-card-text>
-          <b-button @click="openLink(`https://github.com/EntropyT/rchin-poe-trade/blob/master/README.md`)" size="sm" variant="outline-primary" class="mb-2">
+          <b-button @click="openLink(`https://github.com/EntropyT/EntropyT-POE-Trade4CN/blob/master/README.md`)" size="sm" variant="outline-primary" class="mb-2">
             详细使用说明及基础搜索设定请点我
           </b-button>
         </b-card-text>

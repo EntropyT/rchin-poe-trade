@@ -4,13 +4,13 @@
 ![GitHub Latest Releases](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/latest/total)
 ![GitHub Release Date](https://img.shields.io/github/release-date/rChinnnn/rchin-poe-trade)
 
-# rChin POE Trade For CN
+# EntropyT POE Trade For CN
 POE 快速查价工具 (Built with Electron and Vue.)
 > 绝大部分的物品皆可搜寻 - 限定Q服（腾讯服）及国际服(中文化)使用 
 
 ### 安装版本说明
-* 点选 [Releases页面](https://github.com/EntropyT/rchin-poe-trade/releases):
-    * `rchin-poe-trade-Setup-1.312.4.1.exe` 安装版，若程序侦测到有最新版，会在背景下载新版本并在重开程序时更新
+* 点选 [Releases页面](https://github.com/EntropyT/EntropyT-POE-Trade4CN/releases):
+    * `EntropyT-POE-Trade-Setup-xxx.exe` 安装版，若程序侦测到有最新版，会在背景下载新版本并在重开程序时更新
 
 ## 【免责申明】
 * **使用此程序者请自行承担所有可能后果和风险**
