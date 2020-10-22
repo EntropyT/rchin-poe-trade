@@ -61,6 +61,7 @@
           'Sec-Fetch-Site': 'same-origin',
           'Sec-Fetch-Mode': 'cors',
           'Sec-Fetch-Dest': 'empty',
+          'User-Agent': 'rChinPOETradeForCN'
         },
         rejectUnauthorized: false,
         requestCert: false,
@@ -91,6 +92,7 @@
           'Sec-Fetch-Site': 'same-origin',
           'Sec-Fetch-Mode': 'cors',
           'Sec-Fetch-Dest': 'empty',
+          'User-Agent': 'rChinPOETradeForCN'
         },
         rejectUnauthorized: false,
         requestCert: false,
@@ -137,7 +139,7 @@
         headers: {
           'accept': '*/*',
           'Content-Type': 'application/json',
-          'User-Agent': 'rChin POE Trade For CN',
+          'User-Agent': 'rChinPOETradeForCN'
         },
         rejectUnauthorized: false,
         requestCert: false,

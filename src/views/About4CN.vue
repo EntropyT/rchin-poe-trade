@@ -2,7 +2,7 @@
 <div class="about">
   <div style="padding:5px 30px;">
     <b-card-group deck>
-      <b-card border-variant="primary" header="POE 查价工具 v1.312.3" header-bg-variant="primary" header-text-variant="white" align="center">
+      <b-card border-variant="primary" header="POE 查价工具 v1.312.4" header-bg-variant="primary" header-text-variant="white" align="center">
         <b-card-text>作者：EntropyT | 原作者：rChinnnn</b-card-text>
         <b-card-text>
           <b-button @click="openLink(`https://github.com/EntropyT/rchin-poe-trade`)" size="sm" variant="outline-primary" class="mb-2">
@@ -67,12 +67,12 @@
         <b-card-text>欢迎分享给朋友使用</b-card-text>
         <b-card-text>若工具对你有不少帮助，也有余力的话</b-card-text>
         <b-card-text>请作者在开发新功能时喝杯咖啡吧：）</b-card-text>
-        <b-card-text>
+<!--        <b-card-text>-->
 <!--          <b-button @click="openLink(``)" size="sm" variant="outline-primary" class="mb-2">-->
 <!--            支付宝 <b-icon icon="credit-card"></b-icon>-->
 <!--          </b-button>-->
-          <b-card-img src="../assets/pay.jpg">Coffee</b-card-img>
-        </b-card-text>
+<!--          <b-card-img src="../assets/pay.jpg">Coffee</b-card-img>-->
+<!--        </b-card-text>-->
       </b-card>
     </b-card-group>
   </div>

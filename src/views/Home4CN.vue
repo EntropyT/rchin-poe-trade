@@ -386,12 +386,9 @@ import PriceAnalysis from '@/components/PriceAnalysis4CN.vue'
 import hotkeys from "hotkeys-js";
 import GoTop from '@inotom/vue-go-top';
 
-var axios = require('axios');
-var rateLimit = require('axios-rate-limit');
-var _ = require('lodash');
-var stringSimilarity = require('string-similarity');
-var path = require('path'); //系统路径模块  Q服 items-api 始终查询失败，改用本地数据处理
-var fs = require('fs'); //文件模块
+const _ = require('lodash');
+const axios = require('axios');
+const stringSimilarity = require('string-similarity');
 
 const {
   clipboard,
@@ -629,7 +626,7 @@ export default {
       },
       gemBasic: { // 技能寶石基底
         option: [],
-        chosenG: '無',
+        chosenG: '无',
         isSearch: false,
       },
       gggGemBasic: [],
@@ -758,7 +755,7 @@ export default {
     replaceString(string) {
       const regMatchBrackets = /\((.+?)\)/g // 取出括號內文字
       string = regMatchBrackets.test(string) ? string.match(regMatchBrackets)[0] : string
-      const regEnglish = /[\u4e00-\u9fa5]+|\(|\)|．|：/g // 全域搜尋中文字、括號及特定符號，ready for replace
+      const regEnglish = /[\u4e00-\u9fa5]+|\(|\)|\.|：/g // 全域搜尋中文字、括號及特定符號，ready for replace
       if (string.indexOf('追忆之') > -1) { // 追憶物品只取 itemBasic Name
         string = string.slice(4).trim()
       }
@@ -996,25 +993,30 @@ export default {
           // TODO: 把 allItems 改為可套用至全域搜尋的資料格式
           let result = response.data.result
           result[0].entries.forEach((element, index) => { // "label": "飾品"
-            const basetype = ["碧珠护身符", "素布腰带", "裂隙戒指"]
+            const basetype = ["碧珠护身符", "素布腰带", "裂隙戒指", "赏金猎人饰品"]
             // _.isUndefined(element.flags) == true 表示非傳奇物品
             if (_.isUndefined(element.flags)) {
               accessoryIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
             }
             switch (accessoryIndex) {
-              case 1: // 項鍊起始點 { "type": "碧珠護身符", "text": "碧珠護身符" }
+              case 1: // 項鍊起始點 { "type": "碧珠护身符", "text": "碧珠护身符" }
                 element.name = "项链"
                 element.option = "accessory.amulet"
                 this.equipItems.push(element)
                 break;
-              case 2: // 腰帶起始點 { "type": "素布腰帶", "text": "素布腰帶" }
+              case 2: // 腰帶起始點 { "type": "素布腰带", "text": "素布腰带" }
                 element.name = "腰带"
                 element.option = "accessory.belt"
                 this.equipItems.push(element)
                 break;
-              case 3: // 戒指起始點 { "type": "裂痕戒指", "text": "裂痕戒指" }
+              case 3: // 戒指起始點 { "type": "裂隙戒指", "text": "裂隙戒指" }
                 element.name = "戒指"
                 element.option = "accessory.ring"
+                this.equipItems.push(element)
+                break;
+              case 4: // 飾品起始點 { "type": "赏金猎人饰品", "text": "赏金猎人饰品" }
+                element.name = "饰品"
+                element.option = "accessory.trinket"
                 this.equipItems.push(element)
                 break;
               default:
@@ -1392,7 +1394,11 @@ export default {
             tempStat[tempStat.length - 1].type = "工艺"
           } else if (itemArray[index].indexOf('(enchant)') > -1) {
             text = text.substring(0, text.indexOf('(enchant)'))
-            tempStat.push(findBestStat(text, this.enchantStats))
+            if (text.indexOf('增加的小天赋获得：') > -1) {
+              tempStat.push(findBestStat('增加的小天赋获得：#', this.enchantStats))
+            } else {
+              tempStat.push(findBestStat(text, this.enchantStats))
+            }
             tempStat[tempStat.length - 1].type = "附魔"
           } else if (rarityFlag) { // 傳奇裝詞綴
             tempStat.push(findBestStat(text, this.explicitStats))
@@ -1775,10 +1781,10 @@ export default {
       let mapBasicCount = 0
 
       this.mapBasic.option.some(element => {
-        let itemNameStringIndex = itemNameString.indexOf(element.replace(/[^\u4e00-\u9fa5|．]/gi, "")) // 比對 mapBasic.option 時只比對中文字串
+        let itemNameStringIndex = itemNameString.indexOf(element.replace(/[^\u4e00-\u9fa5|\.]/gi, "")) // 比對 mapBasic.option 時只比對中文字串
         if (itemNameStringIndex > -1 && !mapBasicCount) {
           mapBasicCount++
-          this.mapBasic.chosenM = this.isGarenaSvr ? element.replace(/[^\u4e00-\u9fa5|．]/gi, "") : itemNameString.slice(itemNameStringIndex)
+          this.mapBasic.chosenM = this.isGarenaSvr ? element.replace(/[^\u4e00-\u9fa5|\.]/gi, "") : itemNameString.slice(itemNameStringIndex)
           return true
         }
       });
@@ -1839,7 +1845,7 @@ export default {
           this.mapElderGuard.isSearch = true
           this.isMapElderGuardSearch()
         }
-      } else if (item.indexOf('枯疫') > -1 || item.indexOf('Blighted') > -1) {  //TODO ?
+      } else if (item.indexOf('枯疫') > -1 || item.indexOf('Blighted') > -1) {
         this.mapCategory.isBlighted = true
         this.searchJson.query.filters.map_filters.filters.map_blighted = {
           "option": "true"
@@ -2000,7 +2006,12 @@ export default {
         this.searchJson.query.type = this.replaceString(searchName)
       } else if (Rarity === "宝石") {
         this.isGem = true
-
+        this.gemQualitySet.isSearch = false
+        this.gemBasic.chosenG = searchName
+        this.gemQualitySet.chosenObj = {
+          label: "精良的（预设）",
+          prop: '0'
+        }
         if (item.indexOf('异常的 ') > -1) { // 替代品質判斷
           this.gemQualitySet.isSearch = true
           this.gemQualitySet.chosenObj.prop = '1'
@@ -2016,16 +2027,11 @@ export default {
           this.gemQualitySet.chosenObj.prop = '3'
           this.gemQualitySet.chosenObj.label = '幻影的'
           this.gemBasic.chosenG = searchName.substring(4)
-        } else {
-          this.gemQualitySet.isSearch = false
-          this.gemQualitySet.chosenObj.prop = '0'
-          this.gemQualitySet.chosenObj.label = '精良的（默认）'
-          this.gemBasic.chosenG = searchName
         }
         this.gemQualityTypeInput()
 
-        if (item.indexOf('瓦尔．') > -1) { // 瓦爾技能
-          let vaalPos = item.substring(item.indexOf('瓦尔．'))
+        if (item.indexOf('瓦尔.') > -1) { // 瓦爾技能
+          let vaalPos = item.substring(item.indexOf('瓦尔.'))
           let vaalPosEnd = vaalPos.indexOf(NL)
           let vaalGem = vaalPos.substring(0, vaalPosEnd)
           this.searchName = `物品名称『${vaalGem}』`
@@ -2038,6 +2044,9 @@ export default {
         let levelPos = item.substring(item.indexOf('等级: ') + 4)
         let levelPosEnd = levelPos.indexOf(NL)
         this.gemLevel.min = parseInt(levelPos.substring(0, levelPosEnd).replace(/[+-]^\D+/g, ''), 10)
+        if (item.indexOf('最高等级') > -1) { //技能最高等级时，选中技能等级条件
+          this.gemLevel.isSearch = true;
+        }
 
         let minQuality = 0
         if (item.indexOf('品质: +') > -1) {
@@ -2051,7 +2060,11 @@ export default {
         this.gemQuality.min = minQuality
         this.isGemQualitySearch()
 
-      } else if (Rarity === "普通" && (item.indexOf('私人地图装置中使用') > -1 || item.indexOf('可以在私人地图装置中使用，为地图添加词缀') > -1 || item.indexOf('将两种以上的不同印记放进地图装置') > -1 || item.indexOf('你必须完成异界地图中出现的全部六种试炼才能进入此区域') > -1 || item.indexOf('孕育的物品在击败特定数量的怪物后掉落') > -1)) {
+      } else if (Rarity === "普通" && (item.indexOf('私人地图装置中使用') > -1
+          || item.indexOf('可以在私人地图装置中使用，为地图添加词缀') > -1
+          || item.indexOf('将两种以上的不同印记放进地图装置') > -1
+          || item.indexOf('你必须完成异界地图中出现的全部六种试炼才能进入此区域') > -1
+          || item.indexOf('孕育的物品在击败特定数量的怪物后掉落') > -1) && item.indexOf('地图阶级') === -1) {
         // 地圖碎片、裂痕石、徽印、聖甲蟲、眾神聖器、女神祭品、培育器
         this.searchJson.query.type = this.replaceString(searchName)
       } else if (Rarity === "普通" && (item.indexOf('右键点击后赋予你的角色预言之力') > -1)) { // 預言
