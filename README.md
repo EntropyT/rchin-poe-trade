@@ -11,7 +11,6 @@ POE 快速查价工具 (Built with Electron and Vue.)
 ### 安装版本说明
 * 点选 [Releases页面](https://github.com/EntropyT/EntropyT-POE-Trade4CN/releases):
     * `EntropyT-POE-Trade4CN xxx.exe` 直接运行版本，无法自动更新
-    * `EntropyT-POE-Trade4CN Setup xxx.exe` 安装版，若程序侦测到有最新版，会自动下载新版本并在重开程序时更新
 
 ## 【免责申明】
 * **使用此程序者请自行承担所有可能后果和风险**
