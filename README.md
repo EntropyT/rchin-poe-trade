@@ -6,7 +6,7 @@
 
 # EntropyT POE Trade For CN
 POE 快速查价工具 (Built with Electron and Vue.)
-> 绝大部分的物品皆可搜寻 - 限定Q服（腾讯服）及国际服(简中)使用 
+> 绝大部分的物品皆可搜寻 - 限定国服及国际服(简中)使用 
 
 ### 安装版本说明
 * 点选 [Releases页面](https://github.com/EntropyT/EntropyT-POE-Trade4CN/releases):
