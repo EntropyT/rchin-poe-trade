@@ -61,7 +61,7 @@
           'Sec-Fetch-Site': 'same-origin',
           'Sec-Fetch-Mode': 'cors',
           'Sec-Fetch-Dest': 'empty',
-          'User-Agent': 'rChinPOETradeForCN'
+          'User-Agent': 'EntropyT-POE-Trade4CN'
         },
         rejectUnauthorized: false,
         requestCert: false,
@@ -92,7 +92,7 @@
           'Sec-Fetch-Site': 'same-origin',
           'Sec-Fetch-Mode': 'cors',
           'Sec-Fetch-Dest': 'empty',
-          'User-Agent': 'rChinPOETradeForCN'
+          'User-Agent': 'EntropyT-POE-Trade4CN'
         },
         rejectUnauthorized: false,
         requestCert: false,
@@ -139,7 +139,7 @@
         headers: {
           'accept': '*/*',
           'Content-Type': 'application/json',
-          'User-Agent': 'rChinPOETradeForCN'
+          'User-Agent': 'EntropyT-POE-Trade4CN'
         },
         rejectUnauthorized: false,
         requestCert: false,
