@@ -1,8 +1,8 @@
 # Readme.md
 
-![GitHub Releases](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/total)
-![GitHub Latest Releases](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/latest/total)
-![GitHub Release Date](https://img.shields.io/github/release-date/rChinnnn/rchin-poe-trade)
+![GitHub Releases](https://img.shields.io/github/downloads/EntropyT/EntropyT-POE-Trade4CN/total)
+![GitHub Latest Releases](https://img.shields.io/github/downloads/EntropyT/EntropyT-POE-Trade4CN/latest/total)
+![GitHub Release Date](https://img.shields.io/github/release-date/EntropyT/EntropyT-POE-Trade4CN)
 
 # EntropyT POE Trade For CN
 POE 快速查价工具 (Built with Electron and Vue.)
